@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'position_id',
+        'grade_id',
+        'department_id',
     ];
 
     /**
@@ -42,4 +45,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the position associated with the user.
+     */
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    /**
+     * Get the grade associated with the user.
+     */
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class);
+    }
+
+    /**
+     * Get the department associated with the user.
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }
