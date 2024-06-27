@@ -27,8 +27,8 @@ erDiagram
     EvaluationSheet {
         int id PK
         int user_id FK
-        string evaluation
-        date evaluation_date
+        string title
+        date created_at
     }
 
     CompanyGoal {
