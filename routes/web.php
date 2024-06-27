@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SheetRegisterController;
+use App\Http\Controllers\UserRegisterController;
+use App\Http\Controllers\UserinfoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -26,7 +29,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('NigiwaiDashboard');
+    // return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -34,5 +38,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/sheet-register', [SheetRegisterController::class, 'show'])->name('sheet-register');
+
+Route::get('/user-register', function () {
+    return Inertia::render('UserRegister');
+})->name('user-register');
+
+Route::post('/user-register', [UserinfoController::class, 'store']);
+
+Route::get('/idl/index_idl', function () {
+    return Inertia::render('PersonalGoalRegister');
+})->name('idl.index_idl');
+
+Route::get('/idl/select_idl', function () {
+    return Inertia::render('PersonalGoal');
+})->name('idl.select_idl');
+
+
 
 require __DIR__.'/auth.php';
