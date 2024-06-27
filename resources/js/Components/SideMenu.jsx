@@ -24,6 +24,22 @@ const SideMenu = ({ menuVisible }) => {
                         </li>
                         <li className="border-b md:border-none">
                             <Link
+                                href="/idl/index_idl"
+                                className="block px-8 py-2 my-4 hover:bg-sky-700 rounded"
+                            >
+                                期初
+                            </Link>
+                        </li>
+                        <li className="border-b md:border-none">
+                            <Link
+                                href="/idl/select_idl"
+                                className="block px-8 py-2 my-4 hover:bg-sky-700 rounded"
+                            >
+                                期末
+                            </Link>
+                        </li>
+                        {/* <li className="border-b md:border-none">
+                            <Link
                                 href="/sheet-register"
                                 className="block px-8 py-2 my-4 hover:bg-sky-700 rounded"
                             >
@@ -61,8 +77,8 @@ const SideMenu = ({ menuVisible }) => {
                             >
                                 会社目標表示
                             </Link>
-                        </li>
-                        <li className="border-b md:border-none">
+                        </li> */}
+                        {/* <li className="border-b md:border-none">
                             <Link
                                 href="/idl/index_idl"
                                 className="block px-8 py-2 my-4 hover:bg-sky-700 rounded"
@@ -109,7 +125,7 @@ const SideMenu = ({ menuVisible }) => {
                             >
                                 行動評価表示
                             </Link>
-                        </li>
+                        </li> */}
                         <li>
                             <div className="my-8 text-center md:my-4">
                                 <Link
