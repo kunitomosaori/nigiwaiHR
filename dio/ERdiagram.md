@@ -1,34 +1,34 @@
 ```mermaid
 erDiagram
-    User {
+    users {
         int id PK
         string name
         string email
-        int position_id FK
-        int grade_id FK
-        int department_id FK
+        int user_position_id FK
+        int user_grade_id FK
+        int user_department_id FK
     }
 
-    Position {
+    user_positions {
         int id PK
         string name
     }
 
-    Grade {
+    user_grades {
         int id PK
         string name
     }
 
-    Department {
+    user_departments {
         int id PK
         string name
     }
 
-    EvaluationSheet {
+    sheets {
         int id PK
         int user_id FK
-        string evaluation
-        date evaluation_date
+        string title
+        date created_at
     }
 
     CompanyGoal {
@@ -38,13 +38,13 @@ erDiagram
 
     PersonalGoal {
         int id PK
-        int evaluation_sheet_id FK
+        int sheet_id FK
         string goal
     }
 
     PerformanceItem {
         int id PK
-        int evaluation_sheet_id FK
+        int sheet_id FK
         string schedule
         string comment
         int self_evaluation
@@ -54,18 +54,18 @@ erDiagram
 
     CompetencyItem {
         int id PK
-        int evaluation_sheet_id FK
+        int sheet_id FK
         string competency_type
         int self_evaluation
         int supervisor_evaluation
         int weight
     }
 
-    User ||--o{ Position: "has"
-    User ||--o{ Grade: "has"
-    User ||--o{ Department: "belongs to"
-    EvaluationSheet ||--o{ User: "evaluates"
-    EvaluationSheet ||--o{ CompanyGoal: "includes"
-    EvaluationSheet ||--o{ PersonalGoal: "includes"
-    EvaluationSheet ||--o{ PerformanceItem: "includes"
-    EvaluationSheet ||--o{ CompetencyItem: "includes"
+    users ||--o{ user_positions: "has"
+    users ||--o{ user_grades: "has"
+    users ||--o{ user_departments: "belongs to"
+    sheets ||--o{ users: "evaluates"
+    sheets ||--o{ CompanyGoal: "includes"
+    sheets ||--o{ PersonalGoal: "includes"
+    sheets ||--o{ PerformanceItem: "includes"
+    sheets ||--o{ CompetencyItem: "includes"
