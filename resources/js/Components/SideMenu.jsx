@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
-import { TbInbox, TbChevronDown, TbChevronRight, TbPencilPlus, TbCircleDotted } from "react-icons/tb";
+import { TbInbox, TbChevronDown, TbChevronRight, TbPencilPlus, TbUsers, TbCircleDotted } from "react-icons/tb";
 const treeData = [
     {
         title: '受信トレイ',
@@ -29,6 +29,12 @@ const treeData = [
         title: '評価シート作成',
         key: '0-0',
         icon: <TbPencilPlus className="text-2xl" />,
+        link: '/dashboard',
+    },
+    {
+        title: '社員管理',
+        key: '0-1',
+        icon: <TbUsers className="text-2xl" />,
         link: '/dashboard',
     },
     {
