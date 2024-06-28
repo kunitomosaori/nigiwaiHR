@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('evaluation_sheets', function (Blueprint $table) {
+        Schema::create('sheets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->string('title');
@@ -20,7 +20,7 @@ return new class extends Migration
         });
 
         // テストデータの挿入
-        DB::table('evaluation_sheets')->insert([
+        DB::table('sheets')->insert([
             'user_id' => 1,
             'title' => '2024上半期 スキルチェックシート',
             'created_at' => now(),
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('evaluation_sheets');
+        Schema::dropIfExists('sheets');
     }
 };
