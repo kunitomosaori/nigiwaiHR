@@ -60,10 +60,10 @@ const TreeNode = ({ node }) => {
             <div className="flex items-center hover:bg-sky-700 rounded">
                 {node.children ? (
                     <span onClick={handleExpand} className="cursor-pointer">
-                        {expanded ? <TbChevronDown className="text-2xl w-5" /> : <TbChevronRight className="text-2xl w-5" />}
+                        {expanded ? <TbChevronDown className="text-2xl w-7 p-1" /> : <TbChevronRight className="text-2xl w-7 p-1" />}
                     </span>
                 ) : (
-                    <span className="w-5"></span> // トグルボタンと同じ幅のpaddingを追加
+                    <span className="w-7 p-1"></span> // トグルボタンと同じ幅のpaddingを追加
                 )}
                 {node.icon && node.icon}
                 <Link href={node.link} className="block px-6 py-1 my-2">
