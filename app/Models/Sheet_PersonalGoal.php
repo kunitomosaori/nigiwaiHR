@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PersonalGoal extends Model
+class SheetPersonalGoal extends Model
 {
     use HasFactory;
 
-    protected $table = 'personal_goals';
+    protected $table = 'sheet_personal_goals';
 
     protected $fillable = [
-        'evaluation_sheet_id',
+        'sheet_id',
         'goal',
     ];
 
