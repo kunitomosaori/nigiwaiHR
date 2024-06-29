@@ -46,27 +46,18 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    /**
-     * Get the position associated with the user.
-     */
     public function position()
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(UserPosition::class)->select('id', 'name');
     }
 
-    /**
-     * Get the grade associated with the user.
-     */
     public function grade()
     {
-        return $this->belongsTo(Grade::class);
+        return $this->belongsTo(UserGrade::class)->select('id', 'name');
     }
 
-    /**
-     * Get the department associated with the user.
-     */
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(UserDepartment::class)->select('id', 'name');
     }
 }

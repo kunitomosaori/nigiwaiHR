@@ -35,7 +35,7 @@ const treeData = [
         title: '社員管理',
         key: '0-1',
         icon: <TbUsers className="text-2xl" />,
-        link: '/dashboard',
+        link: '/user-management',
     },
     {
         title: '期初',
