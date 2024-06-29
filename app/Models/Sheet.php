@@ -5,14 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sheet extends Model
+class Sheets extends Model
 {
     use HasFactory;
 
-    protected $table = 'sheets';
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'user_id',
         'title',
     ];
+
+    /**
+     * Get the user that owns the sheet.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

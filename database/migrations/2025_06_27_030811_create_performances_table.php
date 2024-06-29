@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sheet_personal_goals', function (Blueprint $table) {
+        Schema::create('sheet_performances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sheet_id')->constrained('sheets');
             $table->string('goal');
+            $table->string('schedule');
+            $table->string('comment');
+            $table->integer('self_evaluation');
+            $table->integer('supervisor_evaluation');
+            $table->integer('weight');
         });
     }
 
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sheet_personal_goals');
+        Schema::dropIfExists('sheet_performances');
     }
 };

@@ -31,20 +31,21 @@ erDiagram
         date created_at
     }
 
-    CompanyGoal {
+    sheet_company_goals {
         int id PK
         string goal
     }
 
-    PersonalGoal {
+    sheet_personal_goals {
         int id PK
         int sheet_id FK
         string goal
     }
 
-    PerformanceItem {
+    sheet_performances {
         int id PK
         int sheet_id FK
+        string goal
         string schedule
         string comment
         int self_evaluation
@@ -52,10 +53,17 @@ erDiagram
         int weight
     }
 
-    CompetencyItem {
+    
+
+    sheet_competency_items {
+        int id PK
+        string name
+    }
+
+    sheet_competencies {
         int id PK
         int sheet_id FK
-        string competency_type
+        int competency_id FK
         int self_evaluation
         int supervisor_evaluation
         int weight
@@ -65,7 +73,8 @@ erDiagram
     users ||--o{ user_grades: "has"
     users ||--o{ user_departments: "belongs to"
     sheets ||--o{ users: "evaluates"
-    sheets ||--o{ CompanyGoal: "includes"
-    sheets ||--o{ PersonalGoal: "includes"
-    sheets ||--o{ PerformanceItem: "includes"
-    sheets ||--o{ CompetencyItem: "includes"
+    sheet_company_goals ||--o{ sheets: "applies to"
+    sheets ||--o{ sheet_personal_goals: "includes"
+    sheets ||--o{ sheet_performances: "includes"
+    sheets ||--o{ sheet_competencies: "includes"
+    sheet_competency_items ||--o{ sheet_competencies: "has"
