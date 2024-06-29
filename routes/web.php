@@ -55,6 +55,10 @@ Route::get('/idl/select_idl', function () {
     return Inertia::render('PersonalGoal');
 })->name('idl.select_idl');
 
+Route::get('/user-management', function () {
+    return Inertia::render('UserManagement');
+})->name('user-management');
+
 
 
 require __DIR__.'/auth.php';

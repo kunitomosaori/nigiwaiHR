@@ -24,3 +24,11 @@ Route::get('/user-sheets', [SheetController::class, 'index']);
 
 Route::get('/personal-goals', [PersonalGoalController::class, 'index']);
 Route::post('/insert_idl', [PersonalGoalController::class, 'store']);
+use App\Http\Controllers\UserController;
+
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
+Route::get('/users/{user}', [UserController::class, 'show']);
+Route::put('/users/{user}', [UserController::class, 'update']);
+Route::delete('/users/{user}', [UserController::class, 'destroy']);
+

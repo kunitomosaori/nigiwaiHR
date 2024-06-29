@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Grade extends Model
+class UserPosition extends Model
 {
     use HasFactory;
 
@@ -19,7 +19,7 @@ class Grade extends Model
     ];
 
     /**
-     * Get the users for the grade.
+     * Get the users for the position.
      */
     public function users()
     {
