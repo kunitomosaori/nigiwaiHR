@@ -22,29 +22,6 @@ const NigiwaiDashboard = () => {
 
     return (
         <Layout>
-            <div className="content-wrapper">
-                <div className="container mx-auto bg-sky-50 p-6 rounded-lg text-center flex justify-center">
-                    <div className="flex space-x-6">
-                        <LinkCard
-                            link="index"
-                            imgSrc="./img/hand.png"
-                            text="人事評価シート登録"
-                        />
-                        <LinkCard
-                            link="select"
-                            imgSrc="./img/document.png"
-                            text="人事評価シート一覧"
-                        />
-                        {auth.user.kanri_flg === 1 && (
-                            <LinkCard
-                                link="user"
-                                imgSrc="./img/human.png"
-                                text="ユーザー登録"
-                            />
-                        )}
-                    </div>
-                </div>
-
                 <div className="container mx-auto bg-sky-50 p-6 rounded-lg text-center flex justify-center mt-6">
                     <div className="w-full">
                         <h2 className="text-xl font-semibold mb-4">割り当てられたシート</h2>
@@ -66,7 +43,6 @@ const NigiwaiDashboard = () => {
                         </table>
                     </div>
                 </div>
-            </div>
         </Layout>
     );
 };
