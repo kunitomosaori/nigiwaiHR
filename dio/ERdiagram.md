@@ -39,6 +39,7 @@ erDiagram
     sheets {
         int id PK
         int user_id FK
+        int sheet_status_id FK
         string title
         date created_at
     }
@@ -97,4 +98,4 @@ erDiagram
     sheet_competency_items ||--o{ sheet_competencies: "has"
     user_positions ||--o{ user_position_abilities: "has"
     abilities ||--o{ user_position_abilities: "includes"
-    sheets ||--o{ sheet_statuses: "has"
+    sheet_statuses ||--o{ sheets: "has"
