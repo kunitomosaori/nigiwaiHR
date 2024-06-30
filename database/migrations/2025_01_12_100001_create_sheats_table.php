@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('sheets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('sheet_status_id')->constrained('sheet_statuses');
             $table->string('title');
             $table->timestamps();
         });
@@ -22,6 +23,7 @@ return new class extends Migration
         // テストデータの挿入
         DB::table('sheets')->insert([
             'user_id' => 1,
+            'sheet_status_id' => 1,
             'title' => '2024上半期 スキルチェックシート',
             'created_at' => now(),
             'updated_at' => now(),
