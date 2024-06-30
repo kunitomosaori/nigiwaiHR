@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonalGoalController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\SheetController;
 
 /*
@@ -20,11 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/user-sheets', [SheetController::class, 'index']);
+Route::get('/sheets', [SheetController::class, 'index']);
+Route::post('/sheets', [SheetController::class, 'store']);
+Route::put('/sheets/{sheet}', [SheetController::class, 'update']);
+Route::delete('/sheets/{sheet}', [SheetController::class, 'destroy']);
 
 Route::get('/personal-goals', [PersonalGoalController::class, 'index']);
 Route::post('/insert_idl', [PersonalGoalController::class, 'store']);
-use App\Http\Controllers\UserController;
 
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
