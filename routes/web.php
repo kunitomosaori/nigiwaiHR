@@ -39,7 +39,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/sheet-register', [SheetRegisterController::class, 'show'])->name('sheet-register');
+
+Route::get('/sheet-management', function () {
+    return Inertia::render('SheetManagement');
+})->name('sheet-management');
 
 Route::get('/user-register', function () {
     return Inertia::render('UserRegister');

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import Layout from "@/Layouts/Layout";
 import axios from "axios";
+import { TbPlus } from "react-icons/tb";
 
-const NigiwaiDashboard = () => {
+
+const SheetManagement = () => {
     const { props } = usePage();
     const { auth } = props;
     const [sheets, setSheets] = useState([]);
@@ -12,7 +14,7 @@ const NigiwaiDashboard = () => {
         axios
             .get(`/api/sheets?user_id=${auth.user.id}`)
             .then((response) => {
-                console.log(response.data.sheets); // デバッグ用ログ
+                console.log(response.data.sheets);
                 setSheets(response.data.sheets);
             })
             .catch((error) => {
@@ -20,11 +22,28 @@ const NigiwaiDashboard = () => {
             });
     }, [auth.user.id]);
 
+    const handleAddSheet = () => {
+        axios
+            .post('/api/sheets', {
+                title: "新しいシート",
+                user_id: auth.user.id,
+            })
+            .then((response) => {
+                const newSheet = response.data.sheet;
+                setSheets([...sheets, newSheet]);
+            })
+            .catch((error) => {
+                console.error("Error adding sheet:", error.response ? error.response.data : error.message);
+                // Added: log full error response
+                console.log("Full error response:", error.response);
+            });
+    };
+
     return (
         <Layout>
                 <div className="container mx-auto bg-sky-50 p-6 rounded-lg text-center flex justify-center mt-6">
                     <div className="w-full">
-                        <h2 className="text-xl font-semibold mb-4">割り当てられたシート</h2>
+                        <h2 className="text-xl font-semibold mb-4">シート一覧</h2>
                         <table className="table-auto w-full">
                             <thead>
                                 <tr>
@@ -39,6 +58,13 @@ const NigiwaiDashboard = () => {
                                         <td className="border px-4 py-2">{sheet.created_at}</td>
                                     </tr>
                                 ))}
+                                <tr>
+                                    <td colSpan="2" className="border px-4 py-2 text-left">
+                                        <button onClick={handleAddSheet} className="flex items-center">
+                                            <TbPlus className="text-2xl mr-2" /> 新しいシートを追加
+                                        </button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -47,4 +73,4 @@ const NigiwaiDashboard = () => {
     );
 };
 
-export default NigiwaiDashboard;
+export default SheetManagement;

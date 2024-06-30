@@ -46,17 +46,22 @@ class SheetController extends Controller
         ]);
 
         if ($validator->fails()) {
+            Log::error('Validation failed for storing sheet:', ['errors' => $validator->errors()]);
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $sheet = Sheet::create([
-            'user_id' => Auth::id(),
-            'title' => $request->title,
-        ]);
+        try {
+            $sheet = Sheet::create([
+                'user_id' => $request->user_id,
+                'title' => $request->title,
+            ]);
 
-        return response()->json(['message' => 'シートが作成されました', 'sheet' => $sheet], 201);
+            return response()->json(['message' => 'シートが作成されました', 'sheet' => $sheet], 201);
+        } catch (\Exception $e) {
+            Log::error('Error storing sheet: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-
     /**
      * Display the specified resource.
      */
