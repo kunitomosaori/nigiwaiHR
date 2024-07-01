@@ -41,26 +41,43 @@ class SheetController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required|string|max:255',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     Log::error('Validation failed for storing sheet:', ['errors' => $validator->errors()]);
+        //     return response()->json(['errors' => $validator->errors()], 422);
+        // }
+
+        // try {
+        //     $sheet = Sheet::create([
+        //         'user_id' => $request->user_id,
+        //         'title' => $request->title,
+        //     ]);
+
+        //     return response()->json(['message' => 'シートが作成されました', 'sheet' => $sheet], 201);
+        // } catch (\Exception $e) {
+        //     Log::error('Error storing sheet: ' . $e->getMessage(), ['exception' => $e]);
+        //     return response()->json(['error' => $e->getMessage()], 500);
+        // }
+        // バリデーション
+        $request->validate([
             'title' => 'required|string|max:255',
+            'user_id' => 'required|integer|exists:users,id',
         ]);
 
-        if ($validator->fails()) {
-            Log::error('Validation failed for storing sheet:', ['errors' => $validator->errors()]);
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        // シートの作成
+        $sheet = Sheet::create([
+            'user_id' => $request->user_id,
+            'sheet_status_id' => 1, // 固定値
+            'sheet_company_goal_id' => 1, // 固定値
+            'title' => $request->title,
+            'created_by_id' => Auth::id(),
+        ]);
 
-        try {
-            $sheet = Sheet::create([
-                'user_id' => $request->user_id,
-                'title' => $request->title,
-            ]);
-
-            return response()->json(['message' => 'シートが作成されました', 'sheet' => $sheet], 201);
-        } catch (\Exception $e) {
-            Log::error('Error storing sheet: ' . $e->getMessage(), ['exception' => $e]);
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        // 作成されたシートを返す
+        return response()->json(['sheet' => $sheet], 201);
     }
     /**
      * Display the specified resource.

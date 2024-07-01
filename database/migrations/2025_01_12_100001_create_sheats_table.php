@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('sheet_status_id')->constrained('sheet_statuses');
+            $table->foreignId('sheet_company_goal_id')->constrained('sheet_company_goals');
             $table->string('title');
             $table->timestamps();
             $table->integer('created_by_id');
@@ -25,9 +26,9 @@ return new class extends Migration
         DB::table('sheets')->insert([
             'user_id' => 1,
             'sheet_status_id' => 1,
+            'sheet_company_goal_id' => 1,
             'title' => '2024上半期 スキルチェックシート',
             'created_at' => now(),
-            'updated_at' => now(),
             'created_by_id' => 2,
         ]);
     }

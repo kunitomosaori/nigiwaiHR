@@ -17,10 +17,22 @@ class Sheet extends Model
     protected $fillable = [
         'user_id',
         'sheet_status_id',
+        'sheet_company_goal_id',
         'title',
         'created_by_id',
     ];
 
+    protected $casts = [
+        'created_at' => 'date:Y-m-d',
+    ];
+
+    /**
+     * Get the user that owns the sheet.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     /**
      * Get the sheet status that owns the sheet.

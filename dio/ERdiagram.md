@@ -47,6 +47,7 @@ erDiagram
         int id PK
         int user_id FK
         int sheet_status_id FK
+        int sheet_company_goal_id FK
         string title
         date created_at
         int created_by_id
@@ -60,6 +61,7 @@ erDiagram
     sheet_company_goals {
         int id PK
         string goal
+        int period
     }
 
     sheet_personal_goals {
@@ -103,7 +105,7 @@ erDiagram
     users ||--o{ user_grades: "has"
     users ||--o{ user_departments: "belongs to"
     sheets ||--o{ users: "evaluates"
-    sheet_company_goals ||--o{ sheets: "applies to"
+    sheet_company_goals ||--o{ sheets: "has"
     sheets ||--o{ sheet_personal_goals: "includes"
     sheets ||--o{ sheet_performances: "includes"
     sheets ||--o{ sheet_competencies: "includes"
