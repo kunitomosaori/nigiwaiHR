@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->timestamps();
             $table->integer('created_by_id');
+            $table->foreignId('period_setting_id')->constrained('period_settings');
         });
 
         // テストデータの挿入
@@ -31,6 +32,7 @@ return new class extends Migration
                 'title' => '2024上半期 スキルチェックシート',
                 'created_at' => now(),
                 'created_by_id' => 1,
+                'period_setting_id' => 1,
             ],
             [
                 'user_id' => 2,
@@ -39,6 +41,7 @@ return new class extends Migration
                 'title' => '2024上半期 スキルチェックシート',
                 'created_at' => now(),
                 'created_by_id' => 1,
+                'period_setting_id' => 1,
             ],
             [
                 'user_id' => 3,
@@ -47,6 +50,7 @@ return new class extends Migration
                 'title' => '2024下半期 スキルチェックシート',
                 'created_at' => now(),
                 'created_by_id' => 1,
+                'period_setting_id' => 2,
             ],
             [
                 'user_id' => 4,
@@ -55,6 +59,7 @@ return new class extends Migration
                 'title' => '2025上半期 スキルチェックシート',
                 'created_at' => now(),
                 'created_by_id' => 1,
+                'period_setting_id' => 3,
             ],
             [
                 'user_id' => 1,
@@ -63,6 +68,7 @@ return new class extends Migration
                 'title' => '2025下半期 スキルチェックシート',
                 'created_at' => now(),
                 'created_by_id' => 2,
+                'period_setting_id' => 4,
             ],
             [
                 'user_id' => 1,
@@ -71,6 +77,7 @@ return new class extends Migration
                 'title' => '2026上半期 スキルチェックシート',
                 'created_at' => now(),
                 'created_by_id' => 2,
+                'period_setting_id' => 5,
             ],
             [
                 'user_id' => 1,
@@ -79,6 +86,7 @@ return new class extends Migration
                 'title' => '2026下半期 スキルチェックシート',
                 'created_at' => now(),
                 'created_by_id' => 2,
+                'period_setting_id' => 6,
             ],
             [
                 'user_id' => 1,
@@ -87,6 +95,7 @@ return new class extends Migration
                 'title' => '2027上半期 スキルチェックシート',
                 'created_at' => now(),
                 'created_by_id' => 2,
+                'period_setting_id' => 7,
             ],
         ]);
     }
