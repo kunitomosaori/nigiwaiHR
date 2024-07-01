@@ -19,9 +19,9 @@ return new class extends Migration
 
         // テストデータの挿入
         DB::table('sheet_statuses')->insert([
-            ['status' => '未提出'],
-            ['status' => '上司待ち'],
-            ['status' => '承認済み'],
+            ['status' => '本人未提出'],
+            ['status' => '上司承認待ち'],
+            ['status' => '本人評価待ち'],
             ['status' => '上司評価待ち'],
             ['status' => '二次評価待ち'],
             ['status' => '最終承認待ち'],
