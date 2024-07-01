@@ -1,9 +1,32 @@
 import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
-import { TbInbox, TbChevronDown, TbChevronRight, TbPencilPlus, TbUsers, TbCircleDotted } from "react-icons/tb";
+import { TbInbox, TbChevronDown, TbChevronRight, TbPencilPlus, TbUsers, TbCircleDotted, TbLogout } from "react-icons/tb";
 const treeData = [
     {
-        title: '受信トレイ',
+        title: '自分宛てのシート',
+        key: '0-0',
+        icon: <TbInbox className="text-2xl" />,
+        link: '/dashboard',
+        children: [
+            {
+                title: '目標記入',
+                key: '0-0-0',
+                link: '/dashboard',
+            },
+            {
+                title: '振り返り',
+                key: '0-0-1',
+                link: '/dashboard',
+            },
+            {
+                title: '承認',
+                key: '0-0-2',
+                link: '/dashboard',
+            },
+        ],
+    },
+    {
+        title: '承認/評価するシート',
         key: '0-0',
         icon: <TbInbox className="text-2xl" />,
         link: '/dashboard',
@@ -52,7 +75,7 @@ const treeData = [
     {
         title: 'ログアウト',
         key: '0-3',
-        icon: <TbCircleDotted className="text-2xl" />,
+        icon: <TbLogout className="text-2xl" />,
         link: '/phpkadai05/logout',
     },
 ];

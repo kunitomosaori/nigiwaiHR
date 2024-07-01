@@ -25,16 +25,22 @@ erDiagram
         string name
     }
 
-    abilities {
+    sheet_permissions {
+        int id PK
+        string name
+    }
+
+    user_permissions {
         int id PK
         string name
     }
 
     %% 組み合わせのユニークさの担保にIDが必要？いらないのであればIDはいらない。
-    user_position_abilities {
+    user_position_permissions {
         int id PK
         int user_position_id FK
-        int ability_id FK
+        int user_permission_id FK
+        int sheet_permission_id FK
     }
 
     sheets {
@@ -102,7 +108,8 @@ erDiagram
     sheets ||--o{ sheet_performances: "includes"
     sheets ||--o{ sheet_competencies: "includes"
     sheet_competency_items ||--o{ sheet_competencies: "has"
-    user_positions ||--o{ user_position_abilities: "has"
-    abilities ||--o{ user_position_abilities: "includes"
+    user_positions ||--o{ user_position_permissions: "has"
+    sheet_permissions ||--o{ user_position_permissions: "includes"
+    user_permissions ||--o{ user_position_permissions: "includes"
     sheet_statuses ||--o{ sheets: "has"
 

@@ -16,6 +16,7 @@ class Sheet extends Model
      */
     protected $fillable = [
         'user_id',
+        'sheet_status_id',
         'title',
     ];
 
@@ -25,5 +26,13 @@ class Sheet extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the sheet status that owns the sheet.
+     */
+    public function sheetStatus()
+    {
+        return $this->belongsTo(SheetStatus::class);
     }
 }
