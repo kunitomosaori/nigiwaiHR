@@ -16,19 +16,30 @@ class SheetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function getMySheets(Request $request)
     {
         try {
             $userId = $request->query('user_id');
-            $sheets = Sheet::where(function ($query) use ($userId) {
-                $query->where('user_id', $userId)
-                    ->orWhere('created_by_id', $userId);
-            })->with('createdBy')->get();
+            $mySheets = Sheet::where('user_id', $userId)->with('createdBy')->get();
             return response()->json([
-                'sheets' => $sheets,
+                'sheets' => $mySheets,
             ]);
         } catch (\Exception $e) {
-            Log::error('Error fetching sheets: ' . $e->getMessage());
+            Log::error('Error fetching my sheets: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getCreatedSheets(Request $request)
+    {
+        try {
+            $userId = $request->query('user_id');
+            $createdSheets = Sheet::where('created_by_id', $userId)->with('createdBy')->get();
+            return response()->json([
+                'sheets' => $createdSheets,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching created sheets: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -131,7 +142,7 @@ class SheetController extends Controller
         $title = $request->input('title');
         $departmentId = $request->input('department_id');
         $creatorId = Auth::id();
-        
+
         // 現在の月を取得
         $currentMonth = now()->month;
 
