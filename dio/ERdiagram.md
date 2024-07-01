@@ -49,7 +49,7 @@ erDiagram
         int sheet_status_id FK
         string title
         date created_at
-        string created_by
+        int created_by_id
     }
 
     sheet_statuses {

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('sheet_status_id')->constrained('sheet_statuses');
             $table->string('title');
             $table->timestamps();
+            $table->integer('created_by_id');
         });
 
         // テストデータの挿入
@@ -27,6 +28,7 @@ return new class extends Migration
             'title' => '2024上半期 スキルチェックシート',
             'created_at' => now(),
             'updated_at' => now(),
+            'created_by_id' => 2,
         ]);
     }
 
