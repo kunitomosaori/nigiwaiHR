@@ -51,6 +51,7 @@ erDiagram
         string title
         date created_at
         int created_by_id
+        int period_setting_id FK
     }
 
     sheet_statuses {
@@ -101,6 +102,13 @@ erDiagram
         int weight
     }
 
+    period_settings {
+        int id PK
+        string name
+        int start_month
+        int end_month
+    }
+
     users ||--o{ user_positions: "has"
     users ||--o{ user_grades: "has"
     users ||--o{ user_departments: "belongs to"
@@ -114,4 +122,4 @@ erDiagram
     sheet_permissions ||--o{ user_position_permissions: "includes"
     user_permissions ||--o{ user_position_permissions: "includes"
     sheet_statuses ||--o{ sheets: "has"
-
+    period_settings ||--o{ sheets: "applies to"
