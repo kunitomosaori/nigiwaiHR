@@ -51,7 +51,7 @@ Route::get('/user-register', function () {
 Route::post('/user-register', [UserinfoController::class, 'store']);
 
 Route::get('/idl/index_idl', function () {
-    return Inertia::render('PersonalGoalRegister');
+    return Inertia::render('QuaterBegin');
 })->name('idl.index_idl');
 
 Route::get('/idl/select_idl', function () {

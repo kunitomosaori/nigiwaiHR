@@ -7,6 +7,7 @@ erDiagram
         int user_position_id FK
         int user_grade_id FK
         int user_department_id FK
+        int supervisor_id FK
     }
 
     user_positions {
@@ -42,6 +43,7 @@ erDiagram
         int sheet_status_id FK
         string title
         date created_at
+        string created_by
     }
 
     sheet_statuses {
@@ -65,13 +67,17 @@ erDiagram
         int sheet_id FK
         string goal
         string schedule
-        string comment
+        string self_comment
+        string supervisor_comment
+        string second_comment
+        string third_comment
         int self_evaluation
         int supervisor_evaluation
+        int second_evaluation
+        int third_evaluation
+        int final_evaluation
         int weight
     }
-
-    
 
     sheet_competency_items {
         int id PK
@@ -99,3 +105,4 @@ erDiagram
     user_positions ||--o{ user_position_abilities: "has"
     abilities ||--o{ user_position_abilities: "includes"
     sheet_statuses ||--o{ sheets: "has"
+

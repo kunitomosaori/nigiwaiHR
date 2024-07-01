@@ -16,10 +16,17 @@ return new class extends Migration
             $table->foreignId('sheet_id')->constrained('sheets');
             $table->string('goal');
             $table->string('schedule');
-            $table->string('comment');
+            $table->string('self_comment');
+            $table->string('supervisor_comment');
+            $table->string('second_comment');
+            $table->string('third_comment');
             $table->integer('self_evaluation');
             $table->integer('supervisor_evaluation');
+            $table->integer('second_evaluation');
+            $table->integer('third_evaluation');
+            $table->integer('final_evaluation');
             $table->integer('weight');
+            
         });
     }
 
