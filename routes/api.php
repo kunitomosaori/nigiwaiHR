@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonalGoalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SheetController;
+use App\Http\Controllers\UserinfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::delete('/sheets/{sheet}', [SheetController::class, 'destroy']);
 Route::get('/personal-goals', [PersonalGoalController::class, 'index']);
 Route::post('/insert_idl', [PersonalGoalController::class, 'store']);
 
+Route::post('/user-register', [UserinfoController::class, 'store']);
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{user}', [UserController::class, 'show']);
