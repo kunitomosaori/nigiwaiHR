@@ -98,6 +98,16 @@ return new class extends Migration
                 'period_setting_id' => 7,
             ],
         ]);
+        // // テストデータの挿入
+        // DB::table('sheets')->insert([
+        //     'user_id' => 2,
+        //     'sheet_status_id' => 1,
+        //     'sheet_company_goal_id' => 1,
+        //     'title' => '2024上半期 スキルチェックシート',
+        //     'created_at' => now(),
+        //     'created_by_id' => 2,
+        //     'period_setting_id' => 1,
+        // ]);
     }
 
     /**

@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SheetRegisterController;
 use App\Http\Controllers\UserRegisterController;
+use App\Http\Controllers\PeriodSettingController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserinfoController;
 use App\Http\Controllers\SheetController;
 use Illuminate\Foundation\Application;
@@ -67,8 +69,12 @@ Route::get('/subordinates', [UserinfoController::class, 'getSubordinates']);
 
 Route::post('/api/sheets', [SheetController::class, 'store']);
 
+Route::post('/api/sheets/department', [SheetController::class, 'createSheetsForDepartment']);
 
+Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+Route::post('/sheets/department', [SheetController::class, 'storeForDepartment'])->name('sheets.storeForDepartment');
 
+Route::get('/period-settings', [PeriodSettingController::class, 'index'])->name('period-settings.index');
 
 
 require __DIR__.'/auth.php';
