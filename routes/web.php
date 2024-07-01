@@ -71,6 +71,8 @@ Route::post('/sheets/department', [SheetController::class, 'storeForDepartment']
 
 Route::post('/api/sheets/department', [SheetController::class, 'createSheetsForDepartment']);
 
+Route::post('/sheets', [SheetController::class, 'store']);
+
 Route::get('/period-settings', [PeriodSettingController::class, 'index'])->name('period-settings.index');
 
 require __DIR__.'/auth.php';
