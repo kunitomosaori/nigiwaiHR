@@ -46,7 +46,7 @@ return new class extends Migration
             'position_id' => 2, // 部長
             'grade_id' => 3, // 等級3
             'department_id' => 1, // 営業部
-            'supervisor_id' => 1, // 社長が上司
+            'supervisor_id' => 1, // 社長1が上司
             'created_at' => now(), // 追加
             'updated_at' => now(), // 追加
         ]);
@@ -58,7 +58,31 @@ return new class extends Migration
             'position_id' => 3, // 社員
             'grade_id' => 3, // 等級3
             'department_id' => 1, // 営業部
-            'supervisor_id' => 2, // 部長が上司
+            'supervisor_id' => 2, // 部長2が上司
+            'created_at' => now(), // 追加
+            'updated_at' => now(), // 追加
+        ]);
+        // テストデータの挿入
+        DB::table('users')->insert([
+            'name' => 'test4',
+            'email' => 'test4@example.com',
+            'password' => bcrypt('testtest'),
+            'position_id' => 3, // 社員
+            'grade_id' => 2, // 等級3
+            'department_id' => 1, // 営業部
+            'supervisor_id' => 1, // 社長1が上司
+            'created_at' => now(), // 追加
+            'updated_at' => now(), // 追加
+        ]);
+        // テストデータの挿入
+        DB::table('users')->insert([
+            'name' => 'test5',
+            'email' => 'test5@example.com',
+            'password' => bcrypt('testtest'),
+            'position_id' => 3, // 社員
+            'grade_id' => 6, // 等級3
+            'department_id' => 1, // 営業部
+            'supervisor_id' => 4, // 社員4が上司
             'created_at' => now(), // 追加
             'updated_at' => now(), // 追加
         ]);
