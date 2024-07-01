@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SheetRegisterController;
 use App\Http\Controllers\UserRegisterController;
 use App\Http\Controllers\UserinfoController;
+use App\Http\Controllers\SheetController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -61,6 +62,12 @@ Route::get('/idl/select_idl', function () {
 Route::get('/user-management', function () {
     return Inertia::render('UserManagement');
 })->name('user-management');
+
+Route::get('/subordinates', [UserinfoController::class, 'getSubordinates']);
+
+Route::post('/api/sheets', [SheetController::class, 'store']);
+
+
 
 
 

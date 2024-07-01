@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Userinfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class UserinfoController extends Controller
 {
@@ -80,4 +82,12 @@ class UserinfoController extends Controller
     {
         //
     }
+
+    public function getSubordinates(Request $request)
+    {
+        $user = Auth::user();
+        $subordinates = User::where('supervisor_id', $user->id)->get(['id', 'name']);
+        return response()->json(['subordinates' => $subordinates]);
+    }
+
 }
