@@ -17,8 +17,10 @@ class SheetController extends Controller
     {
         try {
             $userId = $request->query('user_id');
-            $sheets = Sheet::where('user_id', $userId)->with('createdBy')->get();
-
+            $sheets = Sheet::where(function ($query) use ($userId) {
+                $query->where('user_id', $userId)
+                    ->orWhere('created_by_id', $userId);
+            })->with('createdBy')->get();
             return response()->json([
                 'sheets' => $sheets,
             ]);
