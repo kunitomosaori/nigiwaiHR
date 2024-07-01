@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sheet_competencies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sheet_id')->constrained('sheets');
+            $table->foreignUlid('sheet_id')->constrained('sheets');
             $table->foreignId('competency_id')->constrained('sheet_competency_items');
             $table->integer('self_evaluation');
             $table->integer('supervisor_evaluation');

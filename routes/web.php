@@ -42,7 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::get('/sheet-management', function () {
     return Inertia::render('SheetManagement');
 })->name('sheet-management');
@@ -50,12 +49,6 @@ Route::get('/sheet-management', function () {
 Route::get('/user-register', function () {
     return Inertia::render('UserRegister');
 })->name('user-register');
-
-Route::post('/user-register', [UserinfoController::class, 'store']);
-
-Route::get('/idl/index_idl', function () {
-    return Inertia::render('QuaterBegin');
-})->name('idl.index_idl');
 
 Route::get('/idl/select_idl', function () {
     return Inertia::render('PersonalGoal');
@@ -65,16 +58,19 @@ Route::get('/user-management', function () {
     return Inertia::render('UserManagement');
 })->name('user-management');
 
+Route::get('/sheet/{sheet}', function ($sheet) {
+    return Inertia::render('Sheet', ['sheetId' => $sheet]);
+})->name('sheet.access');
+
+
 Route::get('/subordinates', [UserinfoController::class, 'getSubordinates']);
 
-Route::post('/api/sheets', [SheetController::class, 'store']);
+Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
+
+Route::post('/sheets/department', [SheetController::class, 'storeForDepartment'])->name('sheets.storeForDepartment');
 
 Route::post('/api/sheets/department', [SheetController::class, 'createSheetsForDepartment']);
 
-Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
-Route::post('/sheets/department', [SheetController::class, 'storeForDepartment'])->name('sheets.storeForDepartment');
-
 Route::get('/period-settings', [PeriodSettingController::class, 'index'])->name('period-settings.index');
-
 
 require __DIR__.'/auth.php';

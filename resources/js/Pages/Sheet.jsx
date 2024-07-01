@@ -3,7 +3,7 @@ import axios from "axios";
 import { usePage } from "@inertiajs/react";
 import Layout from "@/Layouts/Layout";
 
-const QuarterBegin = () => {
+const Sheet = () => {
     const { isAdmin, status } = usePage().props; // 権限情報とステータスを取得
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; // 月を0始まりから1始まりに変換
@@ -443,4 +443,4 @@ const QuarterBegin = () => {
     );
 };
 
-export default QuarterBegin;
+export default Sheet;

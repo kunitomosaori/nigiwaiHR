@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sheet_performances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sheet_id')->constrained('sheets');
+            $table->foreignUlid('sheet_id')->constrained('sheets');
             $table->string('goal');
             $table->string('schedule');
             $table->string('self_comment');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('third_evaluation');
             $table->integer('final_evaluation');
             $table->integer('weight');
-            
+
         });
     }
 

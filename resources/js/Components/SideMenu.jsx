@@ -25,29 +25,29 @@ const treeData = [
             },
         ],
     },
-    {
-        title: '承認/評価するシート',
-        key: '0-0',
-        icon: <TbInbox className="text-2xl" />,
-        link: '/dashboard',
-        children: [
-            {
-                title: '目標記入',
-                key: '0-0-0',
-                link: '/dashboard',
-            },
-            {
-                title: '振り返り',
-                key: '0-0-1',
-                link: '/dashboard',
-            },
-            {
-                title: '承認',
-                key: '0-0-2',
-                link: '/dashboard',
-            },
-        ],
-    },
+    // {
+    //     title: '承認/評価するシート',
+    //     key: '0-0',
+    //     icon: <TbInbox className="text-2xl" />,
+    //     link: '/dashboard',
+    //     children: [
+    //         {
+    //             title: '目標記入',
+    //             key: '0-0-0',
+    //             link: '/dashboard',
+    //         },
+    //         {
+    //             title: '振り返り',
+    //             key: '0-0-1',
+    //             link: '/dashboard',
+    //         },
+    //         {
+    //             title: '承認',
+    //             key: '0-0-2',
+    //             link: '/dashboard',
+    //         },
+    //     ],
+    // },
     {
         title: '評価シート作成',
         key: '0-0',
@@ -61,16 +61,11 @@ const treeData = [
         link: '/user-management',
     },
     {
-        title: '期初',
-        key: '0-1',
-        icon: <TbCircleDotted className="text-2xl" />,
-        link: '/idl/index_idl',
-    },
-    {
         title: '期末',
         key: '0-2',
         icon: <TbCircleDotted className="text-2xl" />,
         link: '/idl/select_idl',
+        border: true,
     },
     {
         title: 'ログアウト',
@@ -85,7 +80,7 @@ const TreeNode = ({ node }) => {
         setExpanded(!expanded);
     };
     return (
-        <li className="border-b md:border-none flex flex-col">
+        <li className={`flex flex-col ${node.border ? 'border-b' : ''} md:border-none`}>
             <div className="flex items-center hover:bg-sky-700 rounded">
                 {node.children ? (
                     <span onClick={handleExpand} className="cursor-pointer">
@@ -106,6 +101,7 @@ const TreeNode = ({ node }) => {
                     ))}
                 </ul>
             )}
+            {node.border && <div className="border-b my-4"></div>}
         </li>
     );
 };
