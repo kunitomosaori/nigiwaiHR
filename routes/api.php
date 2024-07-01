@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/sheets/my', [SheetController::class, 'getMySheets']);
 Route::get('/sheets/created', [SheetController::class, 'getCreatedSheets']);
-Route::post('/sheets', [SheetController::class, 'store']);
+
 Route::put('/sheets/{sheet}', [SheetController::class, 'update']);
 Route::delete('/sheets/{sheet}', [SheetController::class, 'destroy']);
 
