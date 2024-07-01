@@ -6,7 +6,8 @@ import axios from "axios";
 const NigiwaiDashboard = () => {
     const { props } = usePage();
     const { auth } = props;
-    const [sheets, setSheets] = useState([]);
+    const [mySheets, setMySheets] = useState([]);
+    const [createdSheets, setCreatedSheets] = useState([]);
     const [activeTab, setActiveTab] = useState("mySheets");
     // activeTab=mySheets自分宛のシートと承認   activeTab=approvalSheets承認/評価するシート
     const [filter, setFilter] = useState("all");
@@ -14,22 +15,32 @@ const NigiwaiDashboard = () => {
 
     useEffect(() => {
         axios
-            .get(`/api/sheets?user_id=${auth.user.id}`)
+            .get(`/api/sheets/my?user_id=${auth.user.id}`)
             .then((response) => {
                 console.log(response.data.sheets); // デバッグ用ログ
-                setSheets(response.data.sheets);
+                setMySheets(response.data.sheets);
             })
             .catch((error) => {
-                console.error("Error fetching sheets:", error.response ? error.response.data : error.message);
+                console.error("Error fetching my sheets:", error.response ? error.response.data : error.message);
+            });
+
+        axios
+            .get(`/api/sheets/created?user_id=${auth.user.id}`)
+            .then((response) => {
+                console.log(response.data.sheets); // デバッグ用ログ
+                setCreatedSheets(response.data.sheets);
+            })
+            .catch((error) => {
+                console.error("Error fetching created sheets:", error.response ? error.response.data : error.message);
             });
     }, [auth.user.id]);
 
     const filterSheets = (type) => {
         let filteredSheets = [];
         if (type === "mySheets") {
-            filteredSheets = sheets.filter(sheet => sheet.user_id === auth.user.id);
+            filteredSheets = mySheets;
         } else if (type === "approvalSheets") {
-            filteredSheets = sheets.filter(sheet => sheet.created_by_id === auth.user.id);
+            filteredSheets = createdSheets;
         }
 
         if (filter === "unsubmitted") {

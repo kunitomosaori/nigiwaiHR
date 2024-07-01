@@ -15,13 +15,13 @@ const SheetManagement = () => {
 
     useEffect(() => {
         axios
-            .get(`/api/sheets?user_id=${selectedUserId}`)
+            .get(`/api/sheets/created?user_id=${selectedUserId}`)
             .then((response) => {
                 setSheets(response.data.sheets);
             })
             .catch((error) => {
                 console.error(
-                    "Error fetching sheets:",
+                    "Error fetching created sheets:",
                     error.response ? error.response.data : error.message
                 );
             });
