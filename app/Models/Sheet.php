@@ -21,13 +21,6 @@ class Sheet extends Model
         'created_by_id',
     ];
 
-    /**
-     * Get the user that owns the sheet.
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     /**
      * Get the sheet status that owns the sheet.
@@ -42,6 +35,6 @@ class Sheet extends Model
      */
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return $this->belongsTo(User::class, 'created_by_id')->select('id','name');
     }
 }

@@ -45,13 +45,27 @@ const NigiwaiDashboard = () => {
                 filteredSheets = filteredSheets.filter(sheet => sheet.sheet_status_id === 4);
             }
         }
-        console.log(filteredSheets); // フィルター後のシートをコンソールに出力
         return filteredSheets;
+    };
+
+    const getStatusAction = (statusId) => {
+        switch (statusId) {
+            case 1:
+                return "提出してください";
+            case 2:
+                return "承認してください";
+            case 3:
+                return "振り返りをしてください";
+            case 4:
+                return "評価してください";
+            default:
+                return "不明なステータス";
+        }
     };
 
     return (
         <Layout>
-            <div className="container mx-auto bg-sky-50 p-6 rounded-lg text-center flex justify-center mt-6">
+            <div className="container mx-auto p-6 rounded-lg text-center flex justify-center mt-6">
                 <div className="w-full">
                     <h2 className="text-xl font-semibold mb-4">シート一覧画面</h2>
                     <div className="mb-4 flex justify-center border-b-2 border-gray-300">
@@ -105,19 +119,27 @@ const NigiwaiDashboard = () => {
                     </div>
                     {activeTab === "mySheets" && (
                         <div>
-                            <h3 className="text-lg font-semibold mb-2">自分宛のシート</h3>
-                            <table className="table-auto w-full">
+                            <table className="table-auto w-full border-collapse border border-gray-300">
                                 <thead>
-                                    <tr>
-                                        <th className="px-4 py-2">シートタイトル</th>
-                                        <th className="px-4 py-2">作成日</th>
+                                    <tr className="bg-gray-100">
+                                        <th className="px-4 py-2 border border-gray-300">シート作成者</th>
+                                        <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
+                                        <th className="px-4 py-2 border border-gray-300">進捗</th>
+                                        <th className="px-4 py-2 border border-gray-300">あなたがやること</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {filterSheets("mySheets").map((sheet) => (
-                                        <tr key={sheet.id}>
+                                        <tr key={sheet.id} className="hover:bg-gray-50">
+                                            <td className="border px-4 py-2">{sheet.created_by.name}</td>
                                             <td className="border px-4 py-2">{sheet.title}</td>
-                                            <td className="border px-4 py-2">{sheet.created_at}</td>
+                                            <td className="border px-4 py-2">
+                                                <div className="w-full bg-gray-200 rounded-full">
+                                                    <div className="bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${sheet.progress}%` }}>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="border px-4 py-2">{getStatusAction(sheet.sheet_status_id)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -126,19 +148,27 @@ const NigiwaiDashboard = () => {
                     )}
                     {activeTab === "approvalSheets" && (
                         <div>
-                            <h3 className="text-lg font-semibold mb-2">承認/評価するシート</h3>
-                            <table className="table-auto w-full">
+                            <table className="table-auto w-full border-collapse border border-gray-300">
                                 <thead>
-                                    <tr>
-                                        <th className="px-4 py-2">シートタイトル</th>
-                                        <th className="px-4 py-2">作成日</th>
+                                    <tr className="bg-gray-100">
+                                        <th className="px-4 py-2 border border-gray-300">シート作成者</th>
+                                        <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
+                                        <th className="px-4 py-2 border border-gray-300">進捗</th>
+                                        <th className="px-4 py-2 border border-gray-300">あなたがやること</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {filterSheets("approvalSheets").map((sheet) => (
-                                        <tr key={sheet.id}>
+                                        <tr key={sheet.id} className="hover:bg-gray-50">
+                                            <td className="border px-4 py-2">{sheet.created_by.name}</td>
                                             <td className="border px-4 py-2">{sheet.title}</td>
-                                            <td className="border px-4 py-2">{sheet.created_at}</td>
+                                            <td className="border px-4 py-2">
+                                                <div className="w-full bg-gray-200 rounded-full">
+                                                    <div className="bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" style={{ width: `${sheet.progress}%` }}>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="border px-4 py-2">{getStatusAction(sheet.sheet_status_id)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
