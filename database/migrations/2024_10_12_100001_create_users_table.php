@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('position_id')->constrained('user_positions');
             $table->foreignId('grade_id')->constrained('user_grades');
             $table->foreignId('department_id')->constrained('user_departments');
+            $table->foreignId('supervisor_id')->nullable()->constrained('users');
         });
 
         // テストデータの挿入
@@ -33,6 +34,31 @@ return new class extends Migration
             'position_id' => 1, // 社長
             'grade_id' => 7, // 社長
             'department_id' => 3, // 人事部
+            'supervisor_id' => null, // 上司なし
+            'created_at' => now(), // 追加
+            'updated_at' => now(), // 追加
+        ]);
+        // テストデータの挿入
+        DB::table('users')->insert([
+            'name' => 'test2',
+            'email' => 'test2@example.com',
+            'password' => bcrypt('testtest'),
+            'position_id' => 2, // 部長
+            'grade_id' => 3, // 等級3
+            'department_id' => 1, // 営業部
+            'supervisor_id' => 1, // 社長が上司
+            'created_at' => now(), // 追加
+            'updated_at' => now(), // 追加
+        ]);
+        // テストデータの挿入
+        DB::table('users')->insert([
+            'name' => 'test3',
+            'email' => 'test3@example.com',
+            'password' => bcrypt('testtest'),
+            'position_id' => 3, // 社員
+            'grade_id' => 3, // 等級3
+            'department_id' => 1, // 営業部
+            'supervisor_id' => 2, // 部長が上司
             'created_at' => now(), // 追加
             'updated_at' => now(), // 追加
         ]);

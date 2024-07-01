@@ -15,9 +15,15 @@ class SheetPerformance extends Model
         'sheet_id',
         'goal',
         'schedule',
-        'comment',
+        'self_comment',
+        'supervisor_comment',
+        'second_comment',
+        'third_comment',
         'self_evaluation',
         'supervisor_evaluation',
+        'second_evaluation',
+        'third_evaluation',
+        'final_evaluation',
         'weight',
     ];
 
