@@ -20,6 +20,7 @@ class Sheet extends Model
         'sheet_company_goal_id',
         'title',
         'created_by_id',
+        'period_setting_id',
     ];
 
     protected $casts = [

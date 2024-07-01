@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sheet;
+use App\Models\SheetPeriodSettings;
+use App\Models\User; // Add this line to import the User model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class SheetController extends Controller
 {
@@ -76,11 +79,101 @@ class SheetController extends Controller
             'sheet_company_goal_id' => 1, // 固定値
             'title' => $request->title,
             'created_by_id' => Auth::id(),
+            'period_setting_id' => 1, // 仮設定
         ]);
 
         // 作成されたシートを返す
         return response()->json(['sheet' => $sheet], 201);
     }
+    public function createSheetsForDepartment(Request $request)
+    {
+        // バリデーション
+        $request->validate([
+            'department_id' => 'required|integer|exists:user_departments,id',
+            'title' => 'required|string|max:255',
+        ]);
+
+        // 部門に所属するユーザーを取得
+        $users = User::where('department_id', $request->department_id)->get();
+
+        // 現在の日付をフォーマット
+        $formattedDate = Carbon::now()->format('Y-m-d');
+        $created_by_id = Auth::id();
+        $sheet_status_id = 1; // 固定値
+        $sheet_company_goal_id = 1; // 固定値
+
+        $sheets = [];
+
+        foreach ($users as $user) {
+            // 該当ユーザーのシートが既に存在するかを確認
+            $existingSheet = Sheet::where('user_id', $user->id)->first();
+            if (!$existingSheet) {
+                // シートの作成
+                $sheet = Sheet::create([
+                    'user_id' => $user->id,
+                    'sheet_status_id' => $sheet_status_id,
+                    'sheet_company_goal_id' => $sheet_company_goal_id,
+                    'title' => $request->title,
+                    'created_at' => $formattedDate,
+                    'created_by_id' => $created_by_id,
+                    'period_setting_id' => 1, // 仮設定
+                ]);
+                $sheets[] = $sheet;
+            }
+        }
+
+        // 作成されたシートを返す
+        return response()->json(['sheets' => $sheets], 201);
+    }
+
+    public function storeForDepartment(Request $request)
+    {
+        $title = $request->input('title');
+        $departmentId = $request->input('department_id');
+        $creatorId = Auth::id();
+        
+        // 現在の月を取得
+        $currentMonth = now()->month;
+
+        // 該当するperiod_settingを取得
+        $periodSetting = SheetPeriodSettings::where('start_month', '<=', $currentMonth)
+            ->where('end_month', '>=', $currentMonth)
+            ->first();
+
+        if (!$periodSetting) {
+            return response()->json(['error' => '適切な期間設定が見つかりませんでした。'], 404);
+        }
+
+        $sheets = [];
+        $users = User::where('department_id', $departmentId)->get();
+
+        foreach ($users as $user) {
+            $existingSheet = Sheet::where('user_id', $user->id)
+                ->where('period_setting_id', $periodSetting->id)
+                ->first();
+            if ($existingSheet) {
+                Log::info('Sheet already exists for user: ' . $user->id . ' and period: ' . $periodSetting->id);
+                continue;
+            }
+
+            $sheet = Sheet::create([
+                'user_id' => $user->id,
+                'sheet_status_id' => 1,
+                'sheet_company_goal_id' => 1,
+                'title' => $title,
+                'created_at' => now(),
+                'created_by_id' => $creatorId,
+                'period_setting_id' => $periodSetting->id,
+            ]);
+
+            $sheets[] = $sheet;
+        }
+
+        return response()->json(['sheets' => $sheets]);
+    }
+
+
+
     /**
      * Display the specified resource.
      */
