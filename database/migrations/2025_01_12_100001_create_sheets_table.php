@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sheets', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('sheet_status_id')->constrained('sheet_statuses');
             $table->foreignId('sheet_company_goal_id')->constrained('sheet_company_goals');
@@ -26,6 +26,7 @@ return new class extends Migration
         // テストデータの挿入
         DB::table('sheets')->insert([
             [
+                'id' => (string) \Illuminate\Support\Str::ulid(),
                 'user_id' => 1,
                 'sheet_status_id' => 1,
                 'sheet_company_goal_id' => 1,
@@ -35,6 +36,7 @@ return new class extends Migration
                 'period_setting_id' => 1,
             ],
             [
+                'id' => (string) \Illuminate\Support\Str::ulid(),
                 'user_id' => 2,
                 'sheet_status_id' => 2,
                 'sheet_company_goal_id' => 1,
@@ -44,6 +46,7 @@ return new class extends Migration
                 'period_setting_id' => 1,
             ],
             [
+                'id' => (string) \Illuminate\Support\Str::ulid(),
                 'user_id' => 3,
                 'sheet_status_id' => 3,
                 'sheet_company_goal_id' => 1,
@@ -53,6 +56,7 @@ return new class extends Migration
                 'period_setting_id' => 2,
             ],
             [
+                'id' => (string) \Illuminate\Support\Str::ulid(),
                 'user_id' => 4,
                 'sheet_status_id' => 4,
                 'sheet_company_goal_id' => 1,
@@ -62,6 +66,7 @@ return new class extends Migration
                 'period_setting_id' => 3,
             ],
             [
+                'id' => (string) \Illuminate\Support\Str::ulid(),
                 'user_id' => 1,
                 'sheet_status_id' => 1,
                 'sheet_company_goal_id' => 1,
@@ -71,6 +76,7 @@ return new class extends Migration
                 'period_setting_id' => 4,
             ],
             [
+                'id' => (string) \Illuminate\Support\Str::ulid(),
                 'user_id' => 1,
                 'sheet_status_id' => 2,
                 'sheet_company_goal_id' => 1,
@@ -80,6 +86,7 @@ return new class extends Migration
                 'period_setting_id' => 5,
             ],
             [
+                'id' => (string) \Illuminate\Support\Str::ulid(),
                 'user_id' => 1,
                 'sheet_status_id' => 3,
                 'sheet_company_goal_id' => 1,
@@ -89,6 +96,7 @@ return new class extends Migration
                 'period_setting_id' => 6,
             ],
             [
+                'id' => (string) \Illuminate\Support\Str::ulid(),
                 'user_id' => 1,
                 'sheet_status_id' => 4,
                 'sheet_company_goal_id' => 1,

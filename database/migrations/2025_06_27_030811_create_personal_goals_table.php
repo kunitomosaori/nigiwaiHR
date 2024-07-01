@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sheet_personal_goals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sheet_id')->constrained('sheets');
+            $table->foreignUlid('sheet_id')->constrained('sheets');
             $table->string('goal');
         });
     }

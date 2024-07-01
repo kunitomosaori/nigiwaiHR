@@ -44,7 +44,7 @@ erDiagram
     }
 
     sheets {
-        int id PK
+        ulid id PK
         int user_id FK
         int sheet_status_id FK
         int sheet_company_goal_id FK
@@ -122,4 +122,4 @@ erDiagram
     sheet_permissions ||--o{ user_position_permissions: "includes"
     user_permissions ||--o{ user_position_permissions: "includes"
     sheet_statuses ||--o{ sheets: "has"
-    period_settings ||--o{ sheets: "applies to"
+    sheet_period_settings ||--o{ sheets: "applies to"

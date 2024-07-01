@@ -59,7 +59,7 @@ const SheetManagement = () => {
         const title = `${year}${period}評価シート`;
 
         axios
-            .post("/api/sheets", {
+            .post("/sheets", {
                 title: title,
                 user_id: selectedUserId,
             })
