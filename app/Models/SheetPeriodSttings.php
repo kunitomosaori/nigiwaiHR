@@ -9,7 +9,7 @@ class SheetPeriodSettings extends Model
 {
     use HasFactory;
 
-    protected $table = 'period_settings';
+    protected $table = 'sheet_period_settings';
 
     protected $fillable = [
         'name',

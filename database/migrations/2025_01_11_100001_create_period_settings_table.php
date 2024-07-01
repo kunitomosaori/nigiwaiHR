@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('period_settings', function (Blueprint $table) {
+        Schema::create('sheet_period_settings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('start_month');
@@ -20,7 +20,7 @@ return new class extends Migration
         });
 
         // テストデータの挿入
-        DB::table('period_settings')->insert([
+        DB::table('sheet_period_settings')->insert([
             [
                 'name' => '2024上半期',
                 'start_month' => 1,
@@ -69,6 +69,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('period_settings');
+        Schema::dropIfExists('sheet_period_settings');
     }
 };

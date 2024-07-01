@@ -102,7 +102,7 @@ erDiagram
         int weight
     }
 
-    period_settings {
+    sheet_period_settings {
         int id PK
         string name
         int start_month

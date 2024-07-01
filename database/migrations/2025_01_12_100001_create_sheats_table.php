@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->timestamps();
             $table->integer('created_by_id');
-            $table->foreignId('period_setting_id')->constrained('period_settings');
+            $table->foreignId('period_setting_id')->constrained('sheet_period_settings');
         });
 
         // テストデータの挿入
