@@ -18,6 +18,7 @@ class Sheet extends Model
         'user_id',
         'sheet_status_id',
         'title',
+        'created_by_id',
     ];
 
     /**
@@ -34,5 +35,13 @@ class Sheet extends Model
     public function sheetStatus()
     {
         return $this->belongsTo(SheetStatus::class);
+    }
+
+    /**
+     * Get the user who created the sheet.
+     */
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 }

@@ -25,11 +25,14 @@ const NigiwaiDashboard = () => {
     }, [auth.user.id]);
 
     const filterSheets = (type) => {
-        let filteredSheets = sheets.filter(sheet => sheet.type === type);
-        if (filter === "all") {
-            // すべてのシートを表示
-            filteredSheets = sheets.filter(sheet => sheet.type === type);
-        } else if (filter === "unsubmitted") {
+        let filteredSheets = [];
+        if (type === "mySheets") {
+            filteredSheets = sheets.filter(sheet => sheet.user_id === auth.user.id);
+        } else if (type === "approvalSheets") {
+            filteredSheets = sheets.filter(sheet => sheet.created_by_id === auth.user.id);
+        }
+
+        if (filter === "unsubmitted") {
             if (type === "mySheets") {
                 filteredSheets = filteredSheets.filter(sheet => sheet.sheet_status_id === 1);
             } else if (type === "approvalSheets") {
