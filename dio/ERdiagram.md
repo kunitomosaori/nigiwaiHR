@@ -57,13 +57,14 @@ erDiagram
         int sheet_id FK
         date created_at
         int created_by_id
+        int period_id FK
     }
 
     sheets {
         ulid id PK
         int sheet_status_id FK
         int sheet_company_goal_id FK
-        date update_at<br><br>
+        date update_at
         int period_setting_id FK
     }
 
@@ -135,7 +136,7 @@ erDiagram
     sheet_permissions ||--o{ user_position_permissions: "includes"
     user_permissions ||--o{ user_position_permissions: "includes"
     sheet_statuses ||--o{ sheets: "has"
-    sheet_period_settings ||--o{ sheets: "applies to"
-    sheets ||--o{ sheet_images: "generates"
+    sheet_period_settings ||--o{ sheet_images: "applies to"
+    sheets }o--|| sheet_images: "generates"
     users ||--o{ user_sheet_connections: "connects"
     sheet_images ||--o{ user_sheet_connections: "connects"
