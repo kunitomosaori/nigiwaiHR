@@ -77,5 +77,12 @@ Route::get('/period-settings', [PeriodSettingController::class, 'index'])->name(
 Route::get('/api/company-goal', [CompanyGoalController::class, 'getCurrentGoal']);
 Route::post('/api/company-goal', [CompanyGoalController::class, 'store']);
 
+Route::post('/api/sheets/{id}/update', [SheetController::class, 'update']);
+
+Route::get('/api/sheet-status/{id}', [SheetController::class, 'getSheetStatus']);
+
+Route::get('/api/sheets/{id}', [SheetController::class, 'getSheetData']);
+
+
 
 require __DIR__.'/auth.php';

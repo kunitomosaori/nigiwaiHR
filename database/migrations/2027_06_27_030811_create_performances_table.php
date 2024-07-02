@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('supervisor_comment');
             $table->string('second_comment');
             $table->string('third_comment');
-            $table->integer('self_evaluation');
-            $table->integer('supervisor_evaluation');
-            $table->integer('second_evaluation');
-            $table->integer('third_evaluation');
-            $table->integer('final_evaluation');
+            $table->string('self_evaluation');
+            $table->string('supervisor_evaluation');
+            $table->string('second_evaluation');
+            $table->string('third_evaluation');
+            $table->string('final_evaluation');
             $table->integer('weight');
 
         });
