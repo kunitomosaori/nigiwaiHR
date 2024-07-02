@@ -95,11 +95,11 @@ erDiagram
         string supervisor_comment
         string second_comment
         string third_comment
-        int self_evaluation
-        int supervisor_evaluation
-        int second_evaluation
-        int third_evaluation
-        int final_evaluation
+        string self_evaluation
+        string supervisor_evaluation
+        string second_evaluation
+        string third_evaluation
+        string final_evaluation
         int weight
     }
 

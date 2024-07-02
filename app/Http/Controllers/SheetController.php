@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sheet;
 use App\Models\SheetPeriodSettings;
+use App\Models\SheetPerformances;
 use App\Models\User; // Add this line to import the User model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -183,6 +184,30 @@ class SheetController extends Controller
         return response()->json(['sheets' => $sheets]);
     }
 
+    public function getSheetStatus($id)
+    {
+        try {
+            $sheet = Sheet::findOrFail($id);
+            return response()->json(['status' => $sheet->sheet_status_id], 200);
+        } catch (\Exception $e) {
+            Log::error('Error fetching sheet status: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch sheet status'], 500);
+        }
+    }
+
+    public function getSheetData($id)
+    {
+        try {
+            $sheet = Sheet::with('performances')->findOrFail($id);
+            return response()->json(['sheet' => $sheet], 200);
+        } catch (\Exception $e) {
+            Log::error('Error fetching sheet data: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch sheet data'], 500);
+        }
+    }
+
+
+
 
 
     /**
@@ -204,10 +229,196 @@ class SheetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sheet $sheet)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'personalGoal' => 'required|string|max:255',
+        ]);
+
+        try {
+            $sheet = Sheet::findOrFail($id);
+            $sheet->update([
+                'personal_goal' => $request->personalGoal,
+                'sheet_status_id' => 2,
+                'updated_at' => now(),
+            ]);
+
+            foreach ($request->performances as $index => $performance) {
+                SheetPerformances::create([
+                    'sheet_id' => $sheet->id,
+                    'detail_type' => $index + 1, // detail_typeを1, 2, 3に設定
+                    'weight' => $performance['weight'],
+                    'schedule' => $performance['schedule'],
+                    'self_comment' => "",
+                    'supervisor_comment' => "",
+                    'second_comment' => "",
+                    'third_comment' => "",
+                    'self_evaluation' => "",
+                    'supervisor_evaluation' => "",
+                    'second_evaluation' => "",
+                    'third_evaluation' => "",
+                    'final_evaluation' => "",
+
+                ]);
+            }
+
+            return response()->json(['message' => 'Sheet and performances updated successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating sheet and performances: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update sheet and performances'], 500);
+        }
     }
+
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'sheet_status_id' => 'required|integer',
+        ]);
+
+        try {
+            $sheet = Sheet::findOrFail($id);
+            $sheet->sheet_status_id = $request->sheet_status_id;
+            $sheet->save();
+
+            return response()->json(['message' => 'Sheet status updated successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating sheet status: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update sheet status'], 500);
+        }
+    }
+
+    public function updateCommentsAndStatus(Request $request, $id)
+    {
+        $request->validate([
+            'comments' => 'required|array',
+            'comments.*.self_comment' => 'required|string|max:255',
+            'comments.*.self_evaluation' => 'required|string|max:1',
+        ]);
+    
+        try {
+            $sheet = Sheet::findOrFail($id);
+            foreach ($request->comments as $comment) {
+                $performance = SheetPerformances::where('sheet_id', $id)
+                    ->where('detail_type', $comment['detail_type'])
+                    ->first();
+                if ($performance) {
+                    $performance->self_comment = $comment['self_comment'];
+                    $performance->self_evaluation = $comment['self_evaluation'];
+                    $performance->save();
+                }
+            }
+    
+            // ステータスを4に更新
+            $sheet->sheet_status_id = 4;
+            $sheet->save();
+    
+            return response()->json(['message' => 'Comments and status updated successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating comments and status: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update comments and status'], 500);
+        }
+    }
+
+    public function updateSupervisorCommentsAndStatus(Request $request, $id)
+    {
+        $request->validate([
+            'comments' => 'required|array',
+            'comments.*.supervisor_comment' => 'required|string|max:255',
+            'comments.*.supervisor_evaluation' => 'required|string|max:1',
+        ]);
+
+        try {
+            $sheet = Sheet::findOrFail($id);
+            foreach ($request->comments as $comment) {
+                $performance = SheetPerformances::where('sheet_id', $id)
+                    ->where('detail_type', $comment['detail_type'])
+                    ->first();
+                if ($performance) {
+                    $performance->supervisor_comment = $comment['supervisor_comment'];
+                    $performance->supervisor_evaluation = $comment['supervisor_evaluation'];
+                    $performance->save();
+                }
+            }
+
+            // ステータスを5に更新
+            $sheet->sheet_status_id = 5;
+            $sheet->save();
+
+            return response()->json(['message' => 'Supervisor comments and status updated successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating supervisor comments and status: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update supervisor comments and status'], 500);
+        }
+    }
+
+    public function updateSecondCommentsAndStatus(Request $request, $id)
+    {
+        $request->validate([
+            'comments' => 'required|array',
+            'comments.*.second_comment' => 'required|string',
+            'comments.*.second_evaluation' => 'required|string|max:1',
+        ]);
+    
+        try {
+            $sheet = Sheet::findOrFail($id);
+            $sheet->update(['sheet_status_id' => 6]);
+    
+            foreach ($request->comments as $index => $comment) {
+                $performance = SheetPerformances::where('sheet_id', $sheet->id)
+                    ->where('detail_type', $index + 1)
+                    ->firstOrFail();
+    
+                $performance->update([
+                    'second_comment' => $comment['second_comment'],
+                    'second_evaluation' => $comment['second_evaluation'],
+                ]);
+            }
+    
+            return response()->json(['message' => 'Second comments and status updated successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating second comments and status: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update second comments and status'], 500);
+        }
+    }
+    
+    public function finalApproval(Request $request, $id)
+    {
+        $request->validate([
+            'comments' => 'required|array',
+            'comments.*.detail_type' => 'required|integer',
+            'comments.*.final_evaluation' => 'required|string',
+        ]);
+
+        try {
+            $sheet = Sheet::findOrFail($id);
+            $sheet->update([
+                'sheet_status_id' => 7,
+            ]);
+
+            foreach ($request->comments as $comment) {
+                $performance = SheetPerformances::where('sheet_id', $sheet->id)
+                    ->where('detail_type', $comment['detail_type'])
+                    ->first();
+
+                if ($performance) {
+                    $performance->update([
+                        'final_evaluation' => $comment['final_evaluation'],
+                    ]);
+                }
+            }
+
+            return response()->json(['message' => 'Final approval completed successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating final approval: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to update final approval'], 500);
+        }
+    }
+
+    
+
+
+
 
     /**
      * Remove the specified resource from storage.
