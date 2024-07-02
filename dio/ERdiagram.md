@@ -47,8 +47,8 @@ erDiagram
         int id PK
         int user_id FK
         int sheet_id FK
-        string role 
-        %% 評価者か被評価者かを識別 
+        string role
+        %% 評価者か被評価者かを識別
     }
 
     sheet_images {
@@ -102,6 +102,29 @@ erDiagram
         int weight
     }
 
+    sheet_performance_headers {
+        int id PK
+        ulid sheet_id FK
+        string goal
+    }
+
+    sheet_performance_details {
+        int id PK
+        int header_id FK
+        int detail_type
+        string schedule
+        string self_comment
+        string supervisor_comment
+        string second_comment
+        string third_comment
+        int self_evaluation
+        int supervisor_evaluation
+        int second_evaluation
+        int third_evaluation
+        int final_evaluation
+        int weight
+    }
+
     sheet_competency_items {
         int id PK
         string name
@@ -129,7 +152,8 @@ erDiagram
     sheet_company_goals ||--o{ sheet_images: "has"
     sheet_company_goals ||--o{ sheet_period_settings: "refers to"
     sheets ||--o{ sheet_personal_goals: "includes"
-    sheets ||--o{ sheet_performances: "includes"
+    sheets ||--o{ sheet_performance_headers: "includes"
+    sheet_performance_headers ||--o{ sheet_performance_details: "includes"
     sheets ||--o{ sheet_competencies: "includes"
     sheet_competency_items ||--o{ sheet_competencies: "has"
     user_positions ||--o{ user_position_permissions: "has"
@@ -140,3 +164,4 @@ erDiagram
     sheets }o--|| sheet_images: "generates"
     users ||--o{ user_sheet_connections: "connects"
     sheet_images ||--o{ user_sheet_connections: "connects"
+```
