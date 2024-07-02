@@ -43,14 +43,27 @@ erDiagram
         int sheet_permission_id FK
     }
 
-    sheets {
-        ulid id PK
+    user_sheet_connections {
+        int id PK
         int user_id FK
-        int sheet_status_id FK
-        int sheet_company_goal_id FK
+        int sheet_id FK
+        string role 
+        %% 評価者か被評価者かを識別 
+    }
+
+    sheet_images {
+        ulid id PK
         string title
+        int sheet_id FK
         date created_at
         int created_by_id
+    }
+
+    sheets {
+        ulid id PK
+        int sheet_status_id FK
+        int sheet_company_goal_id FK
+        date update_at<br><br>
         int period_setting_id FK
     }
 
@@ -62,7 +75,7 @@ erDiagram
     sheet_company_goals {
         int id PK
         string goal
-        int period
+        int period_id FK
     }
 
     sheet_personal_goals {
@@ -112,8 +125,8 @@ erDiagram
     users ||--o{ user_positions: "has"
     users ||--o{ user_grades: "has"
     users ||--o{ user_departments: "belongs to"
-    sheets ||--o{ users: "evaluates"
-    sheet_company_goals ||--o{ sheets: "has"
+    sheet_company_goals ||--o{ sheet_images: "has"
+    sheet_company_goals ||--o{ sheet_period_settings: "refers to"
     sheets ||--o{ sheet_personal_goals: "includes"
     sheets ||--o{ sheet_performances: "includes"
     sheets ||--o{ sheet_competencies: "includes"
@@ -123,3 +136,6 @@ erDiagram
     user_permissions ||--o{ user_position_permissions: "includes"
     sheet_statuses ||--o{ sheets: "has"
     sheet_period_settings ||--o{ sheets: "applies to"
+    sheets ||--o{ sheet_images: "generates"
+    users ||--o{ user_sheet_connections: "connects"
+    sheet_images ||--o{ user_sheet_connections: "connects"
