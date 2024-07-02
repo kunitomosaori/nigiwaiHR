@@ -15,13 +15,13 @@ return new class extends Migration
         Schema::create('sheet_company_goals', function (Blueprint $table) {
             $table->id();
             $table->string('goal');
-            $table->integer('period');
+            $table->foreignId('period_id')->constrained('sheet_period_settings');
         });
 
         // テストデータの挿入
         DB::table('sheet_company_goals')->insert([
-            'goal' => '2024上半期の全社目標',
-            'period' => 202401,
+            'goal' => '2024上半期の全社目標は〇〇〇〇',
+            'period_id' => 1,
         ]);
     }
 
