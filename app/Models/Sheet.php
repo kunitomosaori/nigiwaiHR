@@ -16,10 +16,9 @@ class Sheet extends Model
      */
     protected $fillable = [
         'id',
-        'user_id',
+        'sheet_image_id',
         'sheet_status_id',
         'sheet_company_goal_id',
-        'title',
         'created_by_id',
         'period_setting_id',
     ];
@@ -29,11 +28,11 @@ class Sheet extends Model
     ];
 
     /**
-     * Get the user that owns the sheet.
+     * Get the sheet image that owns the sheet.
      */
-    public function user()
+    public function sheetImage()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(sheetImage::class);
     }
 
     /**

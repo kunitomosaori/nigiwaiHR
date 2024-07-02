@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SheetPeriodSettings extends Model
+class SheetPeriodSetting extends Model
 {
     use HasFactory;
 
-    protected $table = 'sheet_period_settings';
+    protected $table = 'sheet_period_setting';
 
     protected $fillable = [
         'name',

@@ -43,7 +43,7 @@ erDiagram
         int sheet_permission_id FK
     }
 
-    user_sheet_connections {
+    connections_user_sheet {
         int id PK
         int user_id FK
         int sheet_id FK
@@ -52,9 +52,8 @@ erDiagram
     }
 
     sheet_images {
-        ulid id PK
+        id id PK
         string title
-        int sheet_id FK
         date created_at
         int created_by_id
         int period_id FK
@@ -62,6 +61,7 @@ erDiagram
 
     sheets {
         ulid id PK
+        id sheet_image_id FK
         int sheet_status_id FK
         int sheet_company_goal_id FK
         date update_at
@@ -138,5 +138,5 @@ erDiagram
     sheet_statuses ||--o{ sheets: "has"
     sheet_period_settings ||--o{ sheet_images: "applies to"
     sheets }o--|| sheet_images: "generates"
-    users ||--o{ user_sheet_connections: "connects"
-    sheet_images ||--o{ user_sheet_connections: "connects"
+    users ||--o{ connections_user_sheet: "connects"
+    sheet_images ||--o{ connections_user_sheet: "connects"
