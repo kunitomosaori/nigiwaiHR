@@ -19,6 +19,7 @@ class Sheet extends Model
         'sheet_image_id',
         'sheet_status_id',
         'sheet_company_goal_id',
+        'personal_goal',
         'created_by_id',
         'period_setting_id',
     ];

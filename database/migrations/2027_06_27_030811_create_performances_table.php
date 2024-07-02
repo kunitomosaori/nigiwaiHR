@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sheet_performances', function (Blueprint $table) {
             $table->id();
             $table->foreignUlid('sheet_id')->constrained('sheets');
-            $table->string('goal');
+            $table->integer('detail_type');
             $table->string('schedule');
             $table->string('self_comment');
             $table->string('supervisor_comment');
