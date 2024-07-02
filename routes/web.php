@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SheetRegisterController;
-use App\Http\Controllers\UserRegisterController;
 use App\Http\Controllers\PeriodSettingController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserinfoController;
 use App\Http\Controllers\SheetController;
+use App\Http\Controllers\CompanyGoalController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -50,9 +49,9 @@ Route::get('/user-register', function () {
     return Inertia::render('UserRegister');
 })->name('user-register');
 
-Route::get('/idl/select_idl', function () {
-    return Inertia::render('PersonalGoal');
-})->name('idl.select_idl');
+Route::get('/company-goal', function () {
+    return Inertia::render('CompanyGoal');
+})->name('company-goal');
 
 Route::get('/user-management', function () {
     return Inertia::render('UserManagement');
@@ -74,5 +73,9 @@ Route::post('/api/sheets/department', [SheetController::class, 'createSheetsForD
 Route::post('/sheets', [SheetController::class, 'store']);
 
 Route::get('/period-settings', [PeriodSettingController::class, 'index'])->name('period-settings.index');
+
+Route::get('/api/company-goal', [CompanyGoalController::class, 'getCurrentGoal']);
+Route::post('/api/company-goal', [CompanyGoalController::class, 'store']);
+
 
 require __DIR__.'/auth.php';

@@ -13,6 +13,7 @@ class SheetCompanyGoal extends Model
 
     protected $fillable = [
         'goal',
+        "period_id"
     ];
 
     public $timestamps = false; // タイムスタンプが不要な場合
