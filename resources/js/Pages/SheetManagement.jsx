@@ -86,6 +86,9 @@ const SheetManagement = () => {
                 title: title,
                 period_id: selectedPeriodId,
             })
+            .catch((error) => {
+                throw new Error("SheetImageの保存に失敗しました: " + (error.response ? error.response.data : error.message));
+            })
             .then((response) => {
                 const newSheetImage = {
                     id: response.data.id,
@@ -108,6 +111,25 @@ const SheetManagement = () => {
                     .post("/api/connections-user-sheet", connectionData)
                     .then((response) => {
                         console.log("ConnectionsUserSheet created:", response.data);
+                        // 選択項目をリセット
+                        setTitle("");
+                        setSelectedPeriodId("");
+                        setSelectedDepartmentId("");
+                        setSelectedEvaluatorDepartmentId("");
+                        setSelectedEvaluatees([]);
+                        setSelectedEvaluators([]);
+                        // ユーザーリストを再取得
+                        axios
+                            .get("/api/users")
+                            .then((response) => {
+                                setUsers(response.data);
+                            })
+                            .catch((error) => {
+                                console.error(
+                                    "Error fetching users:",
+                                    error.response ? error.response.data : error.message
+                                );
+                            });
                     })
                     .catch((error) => {
                         console.error(
@@ -118,7 +140,7 @@ const SheetManagement = () => {
             })
             .catch((error) => {
                 console.error(
-                    "Error adding sheet image:",
+                    "シート作成に失敗:",
                     error.response ? error.response.data : error.message
                 );
             });

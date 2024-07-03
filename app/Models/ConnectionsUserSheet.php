@@ -22,8 +22,8 @@ class ConnectionsUserSheet extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function sheet()
+    public function sheetImage()
     {
-        return $this->belongsTo(Sheet::class);
+        return $this->belongsTo(SheetImage::class);
     }
 }

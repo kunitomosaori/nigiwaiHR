@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SheetController;
 use App\Http\Controllers\SheetPeriodSettingController;
 use App\Http\Controllers\SheetImageController;
+use App\Http\Controllers\ConnectionUserSheetController;
 use App\Http\Controllers\UserinfoController;
 
 /*
@@ -48,3 +49,4 @@ Route::put('/sheets/{id}/supervisor-comments-and-status', [SheetController::clas
 Route::put('/sheets/{id}/second-comments-and-status', [SheetController::class, 'updateSecondCommentsAndStatus']);
 
 Route::put('/sheets/{id}/final-approval', [SheetController::class, 'finalApproval']);
+Route::get('/connections-user-sheet', [ConnectionUserSheetController::class, 'index']);

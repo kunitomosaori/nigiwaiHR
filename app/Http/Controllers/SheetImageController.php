@@ -17,7 +17,7 @@ class SheetImageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function getMySheetImages(Request $request)
+    public function index(Request $request)
     {
         try {
             $userId = $request->query('user_id');
