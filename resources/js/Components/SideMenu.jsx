@@ -39,6 +39,7 @@ const treeData = [
         key: "0-0",
         icon: <TbPencilPlus className="text-2xl" />,
         link: "/sheet-management",
+        border: true,
     },
     {
         title: "社員管理",
