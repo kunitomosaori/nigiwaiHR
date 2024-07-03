@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonalGoalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SheetController;
+use App\Http\Controllers\PeriodSettingController;
 use App\Http\Controllers\UserinfoController;
 
 /*
@@ -24,7 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/sheets/my', [SheetController::class, 'getMySheets']);
 Route::get('/sheets/created', [SheetController::class, 'getCreatedSheets']);
-
 Route::put('/sheets/{sheet}', [SheetController::class, 'update']);
 Route::delete('/sheets/{sheet}', [SheetController::class, 'destroy']);
 
@@ -38,3 +38,4 @@ Route::get('/users/{user}', [UserController::class, 'show']);
 Route::put('/users/{user}', [UserController::class, 'update']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
+Route::get('/period-settings', [PeriodSettingController::class, 'index']);

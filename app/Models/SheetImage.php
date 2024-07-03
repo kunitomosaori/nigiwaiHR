@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class SheetImage extends Model
 {
@@ -22,7 +23,7 @@ class SheetImage extends Model
      */
     public function periodSetting()
     {
-        return $this->belongsTo(SheetPeriodSetting::class, 'period_id');
+        return $this->belongsTo(SheetPeriodSetting::class, 'period_id')->select('id', 'name'); 
     }
 
     /**
@@ -30,7 +31,7 @@ class SheetImage extends Model
      */
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return $this->belongsTo(User::class)->select('id', 'name');
     }
 
     /**
@@ -38,6 +39,8 @@ class SheetImage extends Model
      */
     public function sheets()
     {
-        return $this->hasMany(Sheet::class, 'sheet_image_id');
+        $sheets = $this->hasMany(Sheet::class, 'sheet_image_id');
+        Log::info('Sheets: ', ['sheets' => $sheets]);
+        return $sheets;
     }
 }

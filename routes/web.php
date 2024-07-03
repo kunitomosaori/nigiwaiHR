@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SheetRegisterController;
 use App\Http\Controllers\UserRegisterController;
 use App\Http\Controllers\PeriodSettingController;
+use App\Http\Controllers\SheetImageController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserinfoController;
 use App\Http\Controllers\SheetController;
@@ -75,4 +76,8 @@ Route::post('/sheets', [SheetController::class, 'store']);
 
 Route::get('/period-settings', [PeriodSettingController::class, 'index'])->name('period-settings.index');
 
+Route::get('api/my-sheet-images', [SheetImageController::class, 'getMySheetImages']);
+Route::post('api/sheet-images', [SheetImageController::class, 'store']);
+
 require __DIR__.'/auth.php';
+
