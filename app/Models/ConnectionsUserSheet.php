@@ -13,7 +13,7 @@ class ConnectionsUserSheet extends Model
 
     protected $fillable = [
         'user_id',
-        'sheet_id',
+        'sheetImage_id',
         'role',
     ];
 

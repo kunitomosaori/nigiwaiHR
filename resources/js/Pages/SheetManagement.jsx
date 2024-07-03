@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, usePage } from "@inertiajs/react";
 import Layout from "@/Layouts/Layout";
 import axios from "axios";
-import { TbPlus } from "react-icons/tb";
+import { TbPlus, TbChevronDown } from "react-icons/tb";
 
 const SheetManagement = () => {
     const { props } = usePage();
@@ -18,10 +18,14 @@ const SheetManagement = () => {
     const [selectedPeriodId, setSelectedPeriodId] = useState("");
     const [selectedEvaluatorId, setSelectedEvaluatorId] = useState("");
     const [selectedEvaluatorDepartmentId, setSelectedEvaluatorDepartmentId] = useState("");
+    const [isUserListOpen, setIsUserListOpen] = useState(false);
+    const [isEvaluatorListOpen, setIsEvaluatorListOpen] = useState(false);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [selectedEvaluators, setSelectedEvaluators] = useState([]);
 
     useEffect(() => {
         axios
-            .get(`api/my-sheet-images?user_id=${auth.user.id}`)
+            .get(`api/sheet-images?user_id=${auth.user.id}`)
             .then((response) => {
                 setSheetImages(response.data);
                 console.log("取得したシート:", response.data);
@@ -72,84 +76,81 @@ const SheetManagement = () => {
     }, [selectedUserId]);
 
     const handleAddSheet = () => {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1; // JavaScriptの月は0-11の範囲なので+1する
-        const period = month <= 6 ? "上半期" : "下半期";
-        const title = `${year}${period}評価シート`;
+        if (!isFormValid()) {
+            return;
+        }
 
         axios
-            .post("/sheets", {
+            // タイトルと期間を保存
+            .post("/api/sheet-images", {
                 title: title,
-                user_id: selectedUserId,
+                period_id: selectedPeriodId,
             })
             .then((response) => {
-                const newSheet = response.data.sheet;
-                setSheets([...sheets, newSheet]);
+                const newSheetImage = {
+                    id: response.data.id,
+                    title: response.data.title,
+                    periodSetting: response.data.periodSetting,
+                    createdBy: response.data.createdBy,
+                };
+                setSheetImages([...sheetImages, newSheetImage]);
+
+                const connectionData = {
+                    sheetImage_id: newSheetImage.id,
+                    evaluated_id: selectedUsers.map(user => user.id) || null,
+                    evaluated_department_id: selectedDepartmentId || null,
+                    evaluator_id: selectedEvaluators.map(user => user.id) || null,
+                    evaluator_department_id: selectedEvaluatorDepartmentId || null,
+                };
+                console.log("Connection Data:", connectionData);
+
+                axios
+                    .post("/api/connections-user-sheet", connectionData)
+                    .then((response) => {
+                        console.log("ConnectionsUserSheet created:", response.data);
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Error adding connections user sheet:",
+                            error.response ? error.response.data : error.message
+                        );
+                    });
             })
             .catch((error) => {
                 console.error(
-                    "Error adding sheet:",
+                    "Error adding sheet image:",
                     error.response ? error.response.data : error.message
                 );
             });
     };
 
-    const handleAddSheetsForDepartment = () => {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1; // JavaScriptの月は0-11の範囲なので+1する
-        const period = month <= 6 ? "上半期" : "下半期";
-        const title = `${year}${period}評価シート`;
-
-        axios
-            .post("/sheets/department", {
-                title: title,
-                department_id: selectedDepartmentId,
-            })
-            .then((response) => {
-                const newSheets = response.data.sheets;
-                setSheets([...sheets, ...newSheets]);
-            })
-            .catch((error) => {
-                console.error(
-                    "Error adding sheets for department:",
-                    error.response ? error.response.data : error.message
-                );
-            });
+    const handleUserChange = (user) => {
+        setSelectedUsers([...selectedUsers, user]);
+        setUsers(users.filter((u) => u.id !== user.id));
     };
 
-    const handleUserChange = (e) => {
-        setSelectedUserId(e.target.value);
-    };
-
-    const handleDepartmentChange = (e) => {
-        setSelectedDepartmentId(e.target.value);
-    };
-
-    const handleEvaluatorChange = (e) => {
-        setSelectedEvaluatorId(e.target.value);
-    };
-
-    const handleEvaluatorDepartmentChange = (e) => {
-        setSelectedEvaluatorDepartmentId(e.target.value);
+    const handleEvaluatorChange = (user) => {
+        setSelectedEvaluators([...selectedEvaluators, user]);
+        setUsers(users.filter((u) => u.id !== user.id));
     };
 
     const isFormValid = () => {
         return (
-            (selectedUserId || selectedDepartmentId) &&
-            (selectedEvaluatorId || selectedEvaluatorDepartmentId)
+            selectedPeriodId &&
+            title &&
+            (selectedUsers.length > 0 || selectedDepartmentId) &&
+            (selectedEvaluators.length > 0 || selectedEvaluatorDepartmentId)
         );
     };
 
     return (
         <Layout>
-            <div className="container mx-auto p-6 rounded-lg text-center flex justify-center mt-6">
+            <div className="container mx-auto p-6 rounded-lg text-center flex justify-center mt-6 bg-white shadow-lg">
                 <div className="w-full">
-                    <h2 className="text-xl font-semibold mb-4">シート一覧</h2>
-                    <table className="table-auto w-full border-collapse border border-gray-300 mb-4">
+                    <h2 className="text-2xl font-bold mb-6 text-gray-800">シート一覧</h2>
+                    <table className="table-auto w-full border-collapse border border-gray-300 mb-6">
                         <thead>
-                            <tr className="bg-gray-100">
+                            <tr className="bg-gray-200">
                                 <th className="px-4 py-2 border border-gray-300">年度</th>
                                 <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
                                 <th className="px-4 py-2 border border-gray-300">被評価者を選択</th>
@@ -159,17 +160,7 @@ const SheetManagement = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {sheetImages.map((sheetImage) => (
-                                <tr key={sheetImage.id} className="hover:bg-gray-50">
-                                    <td className="border px-4 py-2">{sheetImage.periodSetting}</td>
-                                    <td className="border px-4 py-2">{sheetImage.title}</td>
-                                    <td className="border px-4 py-2"></td>
-                                    <td className="border px-4 py-2"></td>
-                                    <td className="border px-4 py-2"></td>
-                                    <td className="border px-4 py-2"></td>
-                                </tr>
-                            ))}
-                            <tr className="hover:bg-gray-50">
+                            <tr className="hover:bg-gray-100">
                                 <td className="border px-4 py-2">
                                     <select
                                         value={selectedPeriodId}
@@ -192,27 +183,40 @@ const SheetManagement = () => {
                                         className="border p-2 rounded w-full"
                                     />
                                 </td>
-                                <td className="border px-4 py-2">
-                                    <select
-                                        value={selectedUserId}
-                                        onChange={handleUserChange}
-                                        className="border p-2 rounded w-full"
-                                    >
-                                        <option value="">被評価者を選択</option>
-                                        {users.map((user) => (
-                                            <option
-                                                key={user.id}
-                                                value={user.id}
-                                            >
+                                <td className="border px-4 py-2 relative">
+                                    <div className="border p-2 rounded w-full flex items-center justify-between">
+                                        <div className="">被評価者を選択</div>
+                                        <button
+                                            onClick={() => setIsUserListOpen(!isUserListOpen)}
+                                        >
+                                            <TbChevronDown className="ml-2" />
+                                        </button>
+                                    </div>
+                                    {isUserListOpen && (
+                                        <div className="absolute bg-white border rounded mt-2 w-full z-10">
+                                            {users.map((user) => (
+                                                <div
+                                                    key={user.id}
+                                                    onClick={() => handleUserChange(user)}
+                                                    className="p-2 hover:bg-gray-200 cursor-pointer"
+                                                >
+                                                    {user.name}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <div>
+                                        {selectedUsers.map((user) => (
+                                            <div key={user.id} className="p-2">
                                                 {user.name}
-                                            </option>
+                                            </div>
                                         ))}
-                                    </select>
+                                    </div>
                                 </td>
                                 <td className="border px-4 py-2">
                                     <select
                                         value={selectedDepartmentId}
-                                        onChange={handleDepartmentChange}
+                                        onChange={(e) => setSelectedDepartmentId(e.target.value)}
                                         className="border p-2 rounded w-full"
                                     >
                                         <option value="">部門を選択</option>
@@ -226,27 +230,40 @@ const SheetManagement = () => {
                                         ))}
                                     </select>
                                 </td>
-                                <td className="border px-4 py-2">
-                                    <select
-                                        value={selectedEvaluatorId}
-                                        onChange={handleEvaluatorChange}
-                                        className="border p-2 rounded w-full"
-                                    >
-                                        <option value="">評価者を選択</option>
-                                        {users.map((user) => (
-                                            <option
-                                                key={user.id}
-                                                value={user.id}
-                                            >
+                                <td className="border px-4 py-2 relative">
+                                    <div className="border p-2 rounded w-full flex items-center justify-between">
+                                        <div className="">評価者を選択</div>
+                                        <button
+                                            onClick={() => setIsEvaluatorListOpen(!isEvaluatorListOpen)}
+                                        >
+                                            <TbChevronDown className="ml-2" />
+                                        </button>
+                                    </div>
+                                    {isEvaluatorListOpen && (
+                                        <div className="absolute bg-white border rounded mt-2 w-full z-10">
+                                            {users.map((user) => (
+                                                <div
+                                                    key={user.id}
+                                                    onClick={() => handleEvaluatorChange(user)}
+                                                    className="p-2 hover:bg-gray-200 cursor-pointer"
+                                                >
+                                                    {user.name}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <div>
+                                        {selectedEvaluators.map((user) => (
+                                            <div key={user.id} className="p-2">
                                                 {user.name}
-                                            </option>
+                                            </div>
                                         ))}
-                                    </select>
+                                    </div>
                                 </td>
                                 <td className="border px-4 py-2">
                                     <select
                                         value={selectedEvaluatorDepartmentId}
-                                        onChange={handleEvaluatorDepartmentChange}
+                                        onChange={(e) => setSelectedEvaluatorDepartmentId(e.target.value)}
                                         className="border p-2 rounded w-full"
                                     >
                                         <option value="">部門を選択</option>
@@ -265,7 +282,7 @@ const SheetManagement = () => {
                                 <td colSpan="6" className="border px-4 py-2 text-left">
                                     <button
                                         onClick={handleAddSheet}
-                                        className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600"
+                                        className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300"
                                         disabled={!isFormValid()}
                                     >
                                         <TbPlus className="text-2xl mr-2" />{" "}
@@ -275,6 +292,31 @@ const SheetManagement = () => {
                             </tr>
                         </tbody>
                     </table>
+                    <h2 className="text-2xl font-bold mb-6 text-gray-800">過去に作成したシート</h2>
+                    <table className="table-auto w-full border-collapse border border-gray-300 mb-6">
+                        <thead>
+                            <tr className="bg-gray-200">
+                                <th className="px-4 py-2 border border-gray-300">年度</th>
+                                <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
+                                <th className="px-4 py-2 border border-gray-300">被評価者を選択</th>
+                                <th className="px-4 py-2 border border-gray-300">被評価者を部署から選択</th>
+                                <th className="px-4a py-2 border border-gray-300">評価者を選択</th>
+                                <th className="px-4 py-2 border border-gray-300">評価者を部署から選択</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {sheetImages.map((sheetImage) => (
+                                <tr key={sheetImage.id} className="hover:bg-gray-100">
+                                    <td className="border px-4 py-2">{sheetImage.periodSetting}</td>
+                                    <td className="border px-4 py-2">{sheetImage.title}</td>
+                                    <td className="border px-4 py-2"></td>
+                                    <td className="border px-4 py-2"></td>
+                                    <td className="border px-4 py-2"></td>
+                                    <td className="border px-4 py-2"></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </Layout>
@@ -282,3 +324,4 @@ const SheetManagement = () => {
 };
 
 export default SheetManagement;
+

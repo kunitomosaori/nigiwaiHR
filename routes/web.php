@@ -3,11 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SheetRegisterController;
 use App\Http\Controllers\UserRegisterController;
-use App\Http\Controllers\PeriodSettingController;
+use App\Http\Controllers\SheetPeriodSettingController;
 use App\Http\Controllers\SheetImageController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserinfoController;
 use App\Http\Controllers\SheetController;
+use App\Http\Controllers\ConnectionUserSheetController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -74,10 +75,11 @@ Route::post('/api/sheets/department', [SheetController::class, 'createSheetsForD
 
 Route::post('/sheets', [SheetController::class, 'store']);
 
-Route::get('/period-settings', [PeriodSettingController::class, 'index'])->name('period-settings.index');
+Route::get('api/period-settings', [SheetPeriodSettingController::class, 'index']);
 
-Route::get('api/my-sheet-images', [SheetImageController::class, 'getMySheetImages']);
+Route::get('api/sheet-images', [SheetImageController::class, 'getMySheetImages']);
 Route::post('api/sheet-images', [SheetImageController::class, 'store']);
 
+Route::post('/api/connections-user-sheet', [ConnectionUserSheetController::class, 'store']);
 require __DIR__.'/auth.php';
 

@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonalGoalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SheetController;
-use App\Http\Controllers\PeriodSettingController;
+use App\Http\Controllers\SheetPeriodSettingController;
+use App\Http\Controllers\SheetImageController;
 use App\Http\Controllers\UserinfoController;
 
 /*
@@ -37,5 +38,3 @@ Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{user}', [UserController::class, 'show']);
 Route::put('/users/{user}', [UserController::class, 'update']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']);
-
-Route::get('/period-settings', [PeriodSettingController::class, 'index']);

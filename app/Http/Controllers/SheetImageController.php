@@ -63,8 +63,17 @@ class SheetImageController extends Controller
                 'period_id' => $request->period_id,
             ]);
 
-            return response()->json(['sheetImage' => $sheetImage], 201);
+            $sheetImage = SheetImage::with(['periodSetting', 'createdBy'])->find($sheetImage->id);
+            Log::info('Sheet image created:', ['sheetImage' => $sheetImage]);
+
+            return response()->json([
+                'id' => $sheetImage->id,
+                'title' => $sheetImage->title,
+                'periodSetting' => $sheetImage->periodSetting->name,
+                'createdBy' => $sheetImage->createdBy->name,
+            ], 201);
         } catch (\Exception $e) {
+            Log::error('Error creating sheet image: ' . $e->getMessage());
             return response()->json(['error' => 'シートイメージの追加に失敗しました。理由: ' . $e->getMessage()], 500); // 修正: エラーメッセージに理由を追加
         }
     }
