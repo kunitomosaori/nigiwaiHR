@@ -70,18 +70,18 @@ const Sheet = () => {
                     comments:
                         sheet.performances.length > 0
                             ? sheet.performances.map((performance, index) => ({
-                                  ...formData.comments[index],
-                                  schedule: performance.schedule,
-                                  weight: performance.weight,
-                                  selfComment: performance.self_comment,
-                                  selfRating: performance.self_evaluation,
-                                  managerComment:
-                                      performance.supervisor_comment,
-                                  managerRating:
-                                      performance.supervisor_evaluation,
-                                  secondComment: performance.second_comment,
-                                  secondRating: performance.second_evaluation,
-                              }))
+                                ...formData.comments[index],
+                                schedule: performance.schedule,
+                                weight: performance.weight,
+                                selfComment: performance.self_comment,
+                                selfRating: performance.self_evaluation,
+                                managerComment:
+                                    performance.supervisor_comment,
+                                managerRating:
+                                    performance.supervisor_evaluation,
+                                secondComment: performance.second_comment,
+                                secondRating: performance.second_evaluation,
+                            }))
                             : formData.comments, // シートのperformanceがない場合、既存のコメントデータを使用
                 }));
                 setStatus(sheet.sheet_status_id);
@@ -344,9 +344,8 @@ const Sheet = () => {
                         />
                     </div>
                     <div
-                        className={`bg-white border h-24 p-2 ${
-                            status === 1 ? "" : "pointer-events-none opacity-50"
-                        }`}
+                        className={`bg-white border h-24 p-2 ${status === 1 ? "" : "pointer-events-none opacity-50"
+                            }`}
                     >
                         <textarea
                             name="personalGoal"
@@ -389,11 +388,10 @@ const Sheet = () => {
                                     {comment.item}
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${
-                                        status === 1
+                                    className={`border px-4 py-2 ${status === 1
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                    }`}
+                                        }`}
                                 >
                                     <textarea
                                         value={comment.schedule}
@@ -409,11 +407,10 @@ const Sheet = () => {
                                     />
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${
-                                        status === 3 && isJulyOrDecember
+                                    className={`border px-4 py-2 ${status === 3 && isJulyOrDecember
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                    }`}
+                                        }`}
                                 >
                                     <textarea
                                         value={comment.selfComment}
@@ -431,11 +428,10 @@ const Sheet = () => {
                                     />
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${
-                                        status === 4
+                                    className={`border px-4 py-2 ${status === 4
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                    }`}
+                                        }`}
                                 >
                                     <textarea
                                         value={comment.managerComment}
@@ -469,11 +465,10 @@ const Sheet = () => {
                                     </td>
                                 )}
                                 <td
-                                    className={`border px-4 py-2 ${
-                                        status === 1
+                                    className={`border px-4 py-2 ${status === 1
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                    }`}
+                                        }`}
                                 >
                                     <select
                                         value={comment.weight}
@@ -495,11 +490,10 @@ const Sheet = () => {
                                     </select>
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${
-                                        status === 3 && isJulyOrDecember
+                                    className={`border px-4 py-2 ${status === 3 && isJulyOrDecember
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                    }`}
+                                        }`}
                                 >
                                     <select
                                         value={comment.selfRating}
@@ -528,11 +522,10 @@ const Sheet = () => {
                                     </select>
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${
-                                        status === 4
+                                    className={`border px-4 py-2 ${status === 4
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                    }`}
+                                        }`}
                                 >
                                     <select
                                         value={comment.managerRating}

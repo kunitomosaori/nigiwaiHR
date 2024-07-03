@@ -16,6 +16,7 @@ class Sheet extends Model
      */
     protected $fillable = [
         'id',
+        'evaluatee_id',
         'sheetImage_id',
         'sheet_status_id',
         'sheet_company_goal_id',
@@ -31,7 +32,7 @@ class Sheet extends Model
      */
     public function sheetImage()
     {
-        return $this->belongsTo(SheetImage::class);
+        return $this->belongsTo(SheetImage::class, 'sheetImage_id');
     }
 
     /**

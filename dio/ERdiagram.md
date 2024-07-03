@@ -46,7 +46,7 @@ erDiagram
     connections_user_sheet {
         int id PK
         int user_id FK
-        int sheet_id FK
+        int sheetImage_id FK
         string role
         %% 評価者か被評価者かを識別
     }
@@ -61,7 +61,8 @@ erDiagram
 
     sheets {
         ulid id PK
-        id sheetImage_id FK
+        int user_id FK
+        int sheetImage_id FK
         int sheet_status_id FK
         int sheet_company_goal_id FK
         string personal_goal

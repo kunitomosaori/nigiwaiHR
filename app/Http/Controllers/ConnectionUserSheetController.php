@@ -13,13 +13,16 @@ class ConnectionUserSheetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function Index() {
+
+    }
+
+    public function userIndex()
     {
         $userId = auth()->id();
         $connections = ConnectionsUserSheet::where('user_id', $userId)->get();
-
         if ($connections->isEmpty()) {
-            return response()->json(['error' => 'ログインユーザーとシートの接続関係が見つかりませんでした'], 404);
+            return response()->json(['error' => 'コネクションが見つかりませんでした'], 404);
         }
 
         return response()->json($connections);

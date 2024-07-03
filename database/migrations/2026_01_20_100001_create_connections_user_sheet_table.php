@@ -71,6 +71,72 @@ return new class extends Migration
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'user_id' => 1,
+                'sheetImage_id' => 8,
+                'role' => 'evaluator',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'user_id' => 2,
+                'sheetImage_id' => 8,
+                'role' => 'evaluatee',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 2,
+                'sheetImage_id' => 7,
+                'role' => 'evaluatee',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 2,
+                'sheetImage_id' => 6,
+                'role' => 'evaluatee',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 2,
+                'sheetImage_id' => 5,
+                'role' => 'evaluatee',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 2,
+                'sheetImage_id' => 4,
+                'role' => 'evaluator',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 2,
+                'sheetImage_id' => 3,
+                'role' => 'evaluator',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 2,
+                'sheetImage_id' => 2,
+                'role' => 'evaluator',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 2,
+                'sheetImage_id' => 1,
+                'role' => 'evaluator',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+
         ]);
     }
 
