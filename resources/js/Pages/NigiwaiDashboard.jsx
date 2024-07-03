@@ -7,7 +7,7 @@ const NigiwaiDashboard = () => {
     const { props } = usePage();
     const { auth } = props;
     const [mySheets, setMySheets] = useState([]);
-    const [createdSheets, setCreatedSheets] = useState([]);
+    const [approvalSheets, setApprovalSheets] = useState([]);
     const [activeTab, setActiveTab] = useState("mySheets");
     // activeTab=mySheets自分宛のシートと承認   activeTab=approvalSheets承認/評価するシート
     const [filter, setFilter] = useState("all");
@@ -15,23 +15,67 @@ const NigiwaiDashboard = () => {
 
     useEffect(() => {
         axios
-            .get(`/api/sheets/my?user_id=${auth.user.id}`)
+            .get(`/api/my/connections-user-sheet`)
             .then((response) => {
-                console.log(response.data.sheets); // デバッグ用ログ
-                setMySheets(response.data.sheets);
-            })
-            .catch((error) => {
-                console.error("Error fetching my sheets:", error.response ? error.response.data : error.message);
-            });
+                const connections = response.data;
+                console.log('Connections:', connections); // コンソールに出力
+                const approvalSheetImageIds = connections.filter(conn => conn.role === 'evaluator').map(conn => conn.sheetImage_id);
+                console.log('Approval Sheet Image IDs:', approvalSheetImageIds);
 
-        axios
-            .get(`/api/sheets/created?user_id=${auth.user.id}`)
-            .then((response) => {
-                console.log(response.data.sheets); // デバッグ用ログ
-                setCreatedSheets(response.data.sheets);
+                axios
+                    .get(`/api/sheets-evaluatee`)
+                    .then((response) => {
+                        console.log(response.data.sheets); // デバッグ用ログ
+                        setMySheets(response.data.sheets.map(sheet => ({
+                            id: sheet.id,
+                            evaluatee_id: sheet.evaluatee_id,
+                            sheetImage_id: sheet.sheetImage_id,
+                            sheet_status_id: sheet.sheet_status_id,
+                            personal_goal: sheet.personal_goal,
+                            created_at: sheet.created_at,
+                            updated_at: sheet.updated_at,
+                            sheet_image: {
+                                id: sheet.sheet_image.id,
+                                title: sheet.sheet_image.title,
+                                created_at: sheet.sheet_image.created_at,
+                                updated_at: sheet.sheet_image.updated_at,
+                                created_by_id: sheet.sheet_image.created_by_id,
+                                period_id: sheet.sheet_image.period_id,
+                            },
+                        })));
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching my sheets:", error.response ? error.response.data : error.message);
+                    });
+
+                axios
+                .get(`/api/sheets-evaluator`, { params: { sheetImage_ids: approvalSheetImageIds }})
+                .then((response) => {
+                        console.log(response.data.sheets); // デバッグ用ログ
+                        setApprovalSheets(response.data.sheets.map(sheet => ({
+                            id: sheet.id,
+                            evaluatee_id: sheet.evaluatee_id,
+                            sheetImage_id: sheet.sheetImage_id,
+                            sheet_status_id: sheet.sheet_status_id,
+                            personal_goal: sheet.personal_goal,
+                            created_at: sheet.created_at,
+                            updated_at: sheet.updated_at,
+                            sheet_image: {
+                                id: sheet.sheet_image.id,
+                                title: sheet.sheet_image.title,
+                                created_at: sheet.sheet_image.created_at,
+                                updated_at: sheet.sheet_image.updated_at,
+                                created_by_id: sheet.sheet_image.created_by_id,
+                                period_id: sheet.sheet_image.period_id,
+                            },
+                        })));
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching approval sheets:", error.response ? error.response.data : error.message);
+                    });
             })
             .catch((error) => {
-                console.error("Error fetching created sheets:", error.response ? error.response.data : error.message);
+                console.error("Error fetching connections:", error.response ? error.response.data : error.message);
             });
     }, [auth.user.id]);
 
@@ -40,7 +84,7 @@ const NigiwaiDashboard = () => {
         if (type === "mySheets") {
             filteredSheets = mySheets;
         } else if (type === "approvalSheets") {
-            filteredSheets = createdSheets;
+            filteredSheets = approvalSheets;
         }
 
         if (filter === "unsubmitted") {
@@ -157,10 +201,10 @@ const NigiwaiDashboard = () => {
                                 <tbody>
                                     {filterSheets("mySheets").map((sheet) => (
                                         <tr key={sheet.id} className="hover:bg-gray-50">
-                                            <td className="border px-4 py-2">{sheet.created_by.name}</td>
+                                            <td className="border px-4 py-2">{sheet.sheet_image.created_by_id}</td>
                                             <td className="border px-4 py-2">
                                                 <Link href={`/sheet/${sheet.id}`} className="text-blue-500 hover:underline">
-                                                    {sheet.title}
+                                                    {sheet.sheet_image.title}
                                                 </Link>
                                             </td>
                                             <td className="border px-4 py-2">
@@ -190,10 +234,10 @@ const NigiwaiDashboard = () => {
                                 <tbody>
                                     {filterSheets("approvalSheets").map((sheet) => (
                                         <tr key={sheet.id} className="hover:bg-gray-50">
-                                            <td className="border px-4 py-2">{sheet.created_by.name}</td>
+                                            <td className="border px-4 py-2">{sheet.sheet_image.created_by_id}</td>
                                             <td className="border px-4 py-2">
                                                 <Link href={`/sheet/${sheet.id}`} className="text-blue-500 hover:underline">
-                                                    {sheet.title}
+                                                    {sheet.sheet_image.title}
                                                 </Link>
                                             </td>
                                             <td className="border px-4 py-2">
@@ -216,4 +260,3 @@ const NigiwaiDashboard = () => {
 };
 
 export default NigiwaiDashboard;
-

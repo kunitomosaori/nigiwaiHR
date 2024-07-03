@@ -71,8 +71,9 @@ Route::get('/subordinates', [UserinfoController::class, 'getSubordinates']);
 
 Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
 
-Route::post('/sheets', [SheetController::class, 'store']);
-
+Route::get('/api/sheets', [SheetController::class, 'index']);
+Route::get('/api/sheets-evaluator', [SheetController::class, 'getEvaluatorSheets']);
+Route::get('/api/sheets-evaluatee', [SheetController::class, 'getEvaluateeSheets']);
 Route::get('api/period-settings', [SheetPeriodSettingController::class, 'index']);
 
 Route::get('api/sheet-images', [SheetImageController::class, 'index']);
@@ -86,11 +87,14 @@ Route::post('/api/sheets/{id}/update', [SheetController::class, 'update']);
 Route::get('/api/sheet-status/{id}', [SheetController::class, 'getSheetStatus']);
 
 Route::get('/api/sheets/{id}', [SheetController::class, 'getSheetData']);
-
 Route::get('/sheets/{sheet}', [SheetController::class, 'show'])->name('sheets.show');
 Route::get('/sheet-competencies/create', [SheetCompetencyController::class, 'create'])->name('sheet-competencies.create');
 Route::post('/sheet-competencies', [SheetCompetencyController::class, 'store'])->name('sheet-competencies.store');
 
+
 Route::post('/api/connections-user-sheet', [ConnectionUserSheetController::class, 'store']);
+Route::get('/api/my/connections-user-sheet', [ConnectionUserSheetController::class, 'userIndex']);
+
+
 require __DIR__.'/auth.php';
 

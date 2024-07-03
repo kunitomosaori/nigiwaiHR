@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sheet;
-use App\Models\SheetPeriodSetting;
-use App\Models\SheetPerformances;
-use App\Models\User; // Add this line to import the User model
+use App\Models\SheetPerformance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -22,6 +20,68 @@ class SheetController extends Controller
         //
     }
 
+    public function getEvaluateeSheets()
+    {
+        $userId = Auth::id();
+        $sheets = Sheet::where('evaluatee_id', $userId)->with('sheetImage')->get();
+        Log::info('評価対象者が自分のシートを取得しました', ['sheets' => $sheets]);
+
+        if ($sheets->isEmpty()) {
+            return response()->json(['error' => 'シートが見つかりませんでした'], 404);
+        }
+
+        return response()->json(['sheets' => $sheets->map(function ($sheet) {
+            return [
+                'id' => $sheet->id,
+                'evaluatee_id' => $sheet->evaluatee_id,
+                'sheetImage_id' => $sheet->sheetImage_id,
+                'sheet_status_id' => $sheet->sheet_status_id,
+                'personal_goal' => $sheet->personal_goal,
+                'created_at' => $sheet->created_at,
+                'updated_at' => $sheet->updated_at,
+                'sheet_image' => [
+                    'id' => $sheet->sheetImage->id,
+                    'title' => $sheet->sheetImage->title,
+                    'created_at' => $sheet->sheetImage->created_at,
+                    'updated_at' => $sheet->sheetImage->updated_at,
+                    'created_by_id' => $sheet->sheetImage->created_by_id,
+                    'period_id' => $sheet->sheetImage->period_id,
+                ],
+            ];
+        })], 200);
+    }
+
+
+    public function getEvaluatorSheets(Request $request)
+{
+    $sheetImageIds = $request->sheetImage_ids;
+    $sheets = Sheet::whereIn('sheetImage_id', $sheetImageIds)->with('sheetImage')->get(); // 'sheetImage'リレーションを追加
+    Log::info('シートを取得しました', ['sheets' => $sheets]);
+
+    if ($sheets->isEmpty()) {
+        return response()->json(['error' => 'シートが見つかりませんでした'], 404);
+    }
+
+    return response()->json(['sheets' => $sheets->map(function ($sheet) {
+        return [
+            'id' => $sheet->id,
+            'evaluatee_id' => $sheet->evaluatee_id,
+            'sheetImage_id' => $sheet->sheetImage_id,
+            'sheet_status_id' => $sheet->sheet_status_id,
+            'personal_goal' => $sheet->personal_goal,
+            'created_at' => $sheet->created_at,
+            'updated_at' => $sheet->updated_at,
+            'sheet_image' => [
+                'id' => $sheet->sheetImage->id,
+                'title' => $sheet->sheetImage->title,
+                'created_at' => $sheet->sheetImage->created_at,
+                'updated_at' => $sheet->sheetImage->updated_at,
+                'created_by_id' => $sheet->sheetImage->created_by_id,
+                'period_id' => $sheet->sheetImage->period_id,
+            ],
+        ];
+    })], 200);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -74,38 +134,12 @@ class SheetController extends Controller
         return response()->json(['sheet' => $sheet], 201);
     }
 
-    public function getSheetStatus($id)
-    {
-        try {
-            $sheet = Sheet::findOrFail($id);
-            return response()->json(['status' => $sheet->sheet_status_id], 200);
-        } catch (\Exception $e) {
-            Log::error('Error fetching sheet status: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to fetch sheet status'], 500);
-        }
-    }
-
-    public function getSheetData($id)
-    {
-        try {
-            $sheet = Sheet::with('performances')->findOrFail($id);
-            return response()->json(['sheet' => $sheet], 200);
-        } catch (\Exception $e) {
-            Log::error('Error fetching sheet data: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to fetch sheet data'], 500);
-        }
-    }
-
-
-
-
-
     /**
      * Display the specified resource.
      */
     public function show(Sheet $sheet)
     {
-        // 必要なデータを取得してビューに渡します   
+        // 必要なデータを取得してビューに渡します
         $sheet->load('performances');
         return inertia('Sheet', [
             'sheet' => $sheet,
@@ -138,7 +172,7 @@ class SheetController extends Controller
             ]);
 
             foreach ($request->performances as $index => $performance) {
-                SheetPerformances::create([
+                SheetPerformance::create([
                     'sheet_id' => $sheet->id,
                     'detail_type' => $index + 1, // detail_typeを1, 2, 3に設定
                     'weight' => $performance['weight'],
@@ -193,7 +227,7 @@ class SheetController extends Controller
         try {
             $sheet = Sheet::findOrFail($id);
             foreach ($request->comments as $comment) {
-                $performance = SheetPerformances::where('sheet_id', $id)
+                $performance = SheetPerformance::where('sheet_id', $id)
                     ->where('detail_type', $comment['detail_type'])
                     ->first();
                 if ($performance) {
@@ -225,7 +259,7 @@ class SheetController extends Controller
         try {
             $sheet = Sheet::findOrFail($id);
             foreach ($request->comments as $comment) {
-                $performance = SheetPerformances::where('sheet_id', $id)
+                $performance = SheetPerformance::where('sheet_id', $id)
                     ->where('detail_type', $comment['detail_type'])
                     ->first();
                 if ($performance) {
@@ -259,7 +293,7 @@ class SheetController extends Controller
             $sheet->update(['sheet_status_id' => 6]);
 
             foreach ($request->comments as $index => $comment) {
-                $performance = SheetPerformances::where('sheet_id', $sheet->id)
+                $performance = SheetPerformance::where('sheet_id', $sheet->id)
                     ->where('detail_type', $index + 1)
                     ->firstOrFail();
 
@@ -291,7 +325,7 @@ class SheetController extends Controller
             ]);
 
             foreach ($request->comments as $comment) {
-                $performance = SheetPerformances::where('sheet_id', $sheet->id)
+                $performance = SheetPerformance::where('sheet_id', $sheet->id)
                     ->where('detail_type', $comment['detail_type'])
                     ->first();
 
