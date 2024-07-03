@@ -25,7 +25,9 @@ class UserController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'position' => $user->position->name,
+                    'grade_id' => $user->grade_id,
                     'grade' => $user->grade->name,
+                    'department_id' => $user->department_id,
                     'department' => $user->department->name,
                 ];
             }));
@@ -78,7 +80,16 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json(['user' => $user]);
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'position' => $user->position->name,
+            'grade_id' => $user->grade_id,
+            'grade' => $user->grade->name,
+            'department_id' => $user->department_id,
+            'department' => $user->department->name,
+        ]);
     }
 
     /**
@@ -111,9 +122,12 @@ class UserController extends Controller
             $request->merge(['password' => Hash::make($request->password)]);
         }
 
-        $user->update($request->all());
-
-        return response()->json(['message' => 'ユーザー情報が更新されました', 'user' => $user]);
+        try {
+            $user->update($request->all());
+            return response()->json(['message' => 'ユーザー情報が更新されました', 'user' => $user]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'ユーザー情報の更新中にエラーが発生しました: ' . $e->getMessage()], 500);
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SheetController;
 use App\Http\Controllers\SheetPeriodSettingController;
 use App\Http\Controllers\SheetImageController;
+use App\Http\Controllers\UserGradeController;
 use App\Http\Controllers\ConnectionUserSheetController;
 use App\Http\Controllers\UserinfoController;
 
@@ -50,3 +51,9 @@ Route::put('/sheets/{id}/second-comments-and-status', [SheetController::class, '
 
 Route::put('/sheets/{id}/final-approval', [SheetController::class, 'finalApproval']);
 Route::get('/connections-user-sheet', [ConnectionUserSheetController::class, 'index']);
+
+Route::get('/user-grades', [UserGradeController::class, 'index']);
+Route::post('/user-grades', [UserGradeController::class, 'store']);
+Route::get('/user-grades/{id}', [UserGradeController::class, 'show']);
+Route::put('/user-grades/{id}', [UserGradeController::class, 'update']);
+Route::delete('/user-grades/{id}', [UserGradeController::class, 'destroy']);
