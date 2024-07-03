@@ -139,13 +139,15 @@ class SheetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Sheet $sheet)
+    public function show($sheetId)
     {
-        // 必要なデータを取得してビューに渡します
-        $sheet->load('performances');
-        return inertia('Sheet', [
-            'sheet' => $sheet,
-        ]);
+        $sheet = Sheet::with('performances')->find($sheetId);
+
+        if (!$sheet) {
+            return response()->json(['error' => 'シートが見つかりませんでした'], 404);
+        }
+
+        return response()->json(['sheet' => $sheet]);
     }
 
     /**
