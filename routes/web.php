@@ -70,15 +70,11 @@ Route::get('/subordinates', [UserinfoController::class, 'getSubordinates']);
 
 Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
 
-Route::post('/sheets/department', [SheetController::class, 'storeForDepartment'])->name('sheets.storeForDepartment');
-
-Route::post('/api/sheets/department', [SheetController::class, 'createSheetsForDepartment']);
-
 Route::post('/sheets', [SheetController::class, 'store']);
 
 Route::get('api/period-settings', [SheetPeriodSettingController::class, 'index']);
 
-Route::get('api/sheet-images', [SheetImageController::class, 'getMySheetImages']);
+Route::get('api/sheet-images', [SheetImageController::class, 'index']);
 Route::post('api/sheet-images', [SheetImageController::class, 'store']);
 
 Route::get('/api/company-goal', [CompanyGoalController::class, 'getCurrentGoal']);

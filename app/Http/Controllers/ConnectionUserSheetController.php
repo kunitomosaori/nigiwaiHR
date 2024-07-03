@@ -15,7 +15,14 @@ class ConnectionUserSheetController extends Controller
      */
     public function index()
     {
+        $userId = auth()->id();
+        $connections = ConnectionsUserSheet::where('user_id', $userId)->get();
 
+        if ($connections->isEmpty()) {
+            return response()->json(['error' => 'ログインユーザーとシートの接続関係が見つかりませんでした'], 404);
+        }
+
+        return response()->json($connections);
     }
 
     /**
@@ -71,7 +78,15 @@ class ConnectionUserSheetController extends Controller
             }
         }
 
-        return response()->json(['message' => 'Connections saved successfully'], 201);
+        try {
+            $createSheetService = new \App\Services\CreateSheetFromSheetImage();
+            $createSheetService->createSheetsFromSheetImage($connectionData['sheetImage_id']);
+        } catch (\Exception $e) {
+            Log::error('SheetImageからのSheet生成サービス呼び出しに失敗しました: ' . $e->getMessage());
+            return response()->json(['error' => 'SheetImageからのSheet生成に失敗しました'], 500);
+        }
+
+        return response()->json(['message' => 'シート作成に成功'], 201);
     }
 
     /**

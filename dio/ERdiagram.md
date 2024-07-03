@@ -61,7 +61,7 @@ erDiagram
 
     sheets {
         ulid id PK
-        id sheet_image_id FK
+        id sheetImage_id FK
         int sheet_status_id FK
         int sheet_company_goal_id FK
         string personal_goal

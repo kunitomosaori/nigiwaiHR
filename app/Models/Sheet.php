@@ -8,7 +8,7 @@ class Sheet extends Model
 {
     use HasFactory;
     use HasUlids;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,12 +16,10 @@ class Sheet extends Model
      */
     protected $fillable = [
         'id',
-        'sheet_image_id',
+        'sheetImage_id',
         'sheet_status_id',
         'sheet_company_goal_id',
         'personal_goal',
-        'created_by_id',
-        'period_setting_id',
     ];
 
     protected $casts = [
@@ -33,7 +31,7 @@ class Sheet extends Model
      */
     public function sheetImage()
     {
-        return $this->belongsTo(sheetImage::class);
+        return $this->belongsTo(SheetImage::class);
     }
 
     /**
@@ -57,6 +55,6 @@ class Sheet extends Model
      */
     public function performances()
     {
-        return $this->hasMany(SheetPerformances::class, 'sheet_id');
+        return $this->hasMany(SheetPerformance::class, 'sheet_id');
     }
 }

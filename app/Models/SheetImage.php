@@ -23,7 +23,7 @@ class SheetImage extends Model
      */
     public function periodSetting()
     {
-        return $this->belongsTo(SheetPeriodSetting::class, 'period_id')->select('id', 'name'); 
+        return $this->belongsTo(SheetPeriodSetting::class, 'period_id')->select('id', 'name');
     }
 
     /**
@@ -39,7 +39,7 @@ class SheetImage extends Model
      */
     public function sheets()
     {
-        $sheets = $this->hasMany(Sheet::class, 'sheet_image_id');
+        $sheets = $this->hasMany(Sheet::class, 'sheetImage_id');
         Log::info('Sheets: ', ['sheets' => $sheets]);
         return $sheets;
     }
