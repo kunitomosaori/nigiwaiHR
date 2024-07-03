@@ -4,12 +4,13 @@ import { usePage, Link } from "@inertiajs/react";
 import Layout from "@/Layouts/Layout";
 
 const Sheet = () => {
-    const { isAdmin, sheetId } = usePage().props; // 権限情報、シートIDを取得
+    const { isAdmin, sheetId } = usePage().props;
 
     const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1; // 月を0始まりから1始まりに変換
+    const currentMonth = currentDate.getMonth() + 1;
 
     const [status, setStatus] = useState(null);
+
     const [formData, setFormData] = useState({
         sheetId: sheetId,
         companyGoal: "",
@@ -70,18 +71,18 @@ const Sheet = () => {
                     comments:
                         sheet.performances.length > 0
                             ? sheet.performances.map((performance, index) => ({
-                                ...formData.comments[index],
-                                schedule: performance.schedule,
-                                weight: performance.weight,
-                                selfComment: performance.self_comment,
-                                selfRating: performance.self_evaluation,
-                                managerComment:
-                                    performance.supervisor_comment,
-                                managerRating:
-                                    performance.supervisor_evaluation,
-                                secondComment: performance.second_comment,
-                                secondRating: performance.second_evaluation,
-                            }))
+                                  ...formData.comments[index],
+                                  schedule: performance.schedule,
+                                  weight: performance.weight,
+                                  selfComment: performance.self_comment,
+                                  selfRating: performance.self_evaluation,
+                                  managerComment:
+                                      performance.supervisor_comment,
+                                  managerRating:
+                                      performance.supervisor_evaluation,
+                                  secondComment: performance.second_comment,
+                                  secondRating: performance.second_evaluation,
+                              }))
                             : formData.comments, // シートのperformanceがない場合、既存のコメントデータを使用
                 }));
                 setStatus(sheet.sheet_status_id);
@@ -90,6 +91,20 @@ const Sheet = () => {
                 console.error("Error fetching sheet data:", error);
             });
     }, [sheetId]);
+
+    useEffect(() => {
+        axios
+            .get("/api/company-goal")
+            .then((response) => {
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    companyGoal: response.data.goal,
+                }));
+            })
+            .catch((error) => {
+                console.error("Error fetching company goal:", error);
+            });
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -344,8 +359,9 @@ const Sheet = () => {
                         />
                     </div>
                     <div
-                        className={`bg-white border h-24 p-2 ${status === 1 ? "" : "pointer-events-none opacity-50"
-                            }`}
+                        className={`bg-white border h-24 p-2 ${
+                            status === 1 ? "" : "pointer-events-none opacity-50"
+                        }`}
                     >
                         <textarea
                             name="personalGoal"
@@ -388,10 +404,11 @@ const Sheet = () => {
                                     {comment.item}
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${status === 1
+                                    className={`border px-4 py-2 ${
+                                        status === 1
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                        }`}
+                                    }`}
                                 >
                                     <textarea
                                         value={comment.schedule}
@@ -407,10 +424,11 @@ const Sheet = () => {
                                     />
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${status === 3 && isJulyOrDecember
+                                    className={`border px-4 py-2 ${
+                                        status === 3 && isJulyOrDecember
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                        }`}
+                                    }`}
                                 >
                                     <textarea
                                         value={comment.selfComment}
@@ -428,10 +446,11 @@ const Sheet = () => {
                                     />
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${status === 4
+                                    className={`border px-4 py-2 ${
+                                        status === 4
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                        }`}
+                                    }`}
                                 >
                                     <textarea
                                         value={comment.managerComment}
@@ -447,7 +466,13 @@ const Sheet = () => {
                                     />
                                 </td>
                                 {showSecondComments && (
-                                    <td className="border px-4 py-2">
+                                    <td
+                                        className={`border px-4 py-2 ${
+                                            status === 5
+                                                ? ""
+                                                : "pointer-events-none opacity-50"
+                                        }`}
+                                    >
                                         <textarea
                                             value={comment.secondComment}
                                             onChange={(e) =>
@@ -458,17 +483,16 @@ const Sheet = () => {
                                                 )
                                             }
                                             className="w-full"
-                                            disabled={
-                                                status === 7 || status > 5
-                                            }
+                                            disabled={status !== 5}
                                         />
                                     </td>
                                 )}
                                 <td
-                                    className={`border px-4 py-2 ${status === 1
+                                    className={`border px-4 py-2 ${
+                                        status === 1
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                        }`}
+                                    }`}
                                 >
                                     <select
                                         value={comment.weight}
@@ -490,10 +514,11 @@ const Sheet = () => {
                                     </select>
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${status === 3 && isJulyOrDecember
+                                    className={`border px-4 py-2 ${
+                                        status === 3 && isJulyOrDecember
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                        }`}
+                                    }`}
                                 >
                                     <select
                                         value={comment.selfRating}
@@ -522,10 +547,11 @@ const Sheet = () => {
                                     </select>
                                 </td>
                                 <td
-                                    className={`border px-4 py-2 ${status === 4
+                                    className={`border px-4 py-2 ${
+                                        status === 4
                                             ? ""
                                             : "pointer-events-none opacity-50"
-                                        }`}
+                                    }`}
                                 >
                                     <select
                                         value={comment.managerRating}
@@ -552,7 +578,13 @@ const Sheet = () => {
                                     </select>
                                 </td>
                                 {showSecondComments && (
-                                    <td className="border px-4 py-2">
+                                    <td
+                                        className={`border px-4 py-2 ${
+                                            status === 5
+                                                ? ""
+                                                : "pointer-events-none opacity-50"
+                                        }`}
+                                    >
                                         <select
                                             value={comment.secondRating}
                                             onChange={(e) =>
@@ -563,9 +595,7 @@ const Sheet = () => {
                                                 )
                                             }
                                             className="w-full"
-                                            disabled={
-                                                status === 7 || status > 5
-                                            }
+                                            disabled={status !== 5}
                                         >
                                             {["", "S", "A", "B", "C", "D"].map(
                                                 (rating) => (
@@ -679,7 +709,7 @@ const Sheet = () => {
                         承認済み
                     </h2>
                 )}
-                {status <= 6 && (
+                {[1, 3, 4].includes(status) && (
                     <div className="mt-4 flex justify-center">
                         <Link
                             href={`/sheet-competencies/create?sheetId=${sheetId}`}
