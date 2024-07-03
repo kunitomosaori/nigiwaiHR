@@ -21,6 +21,7 @@ class CreateSheetFromSheetImage
             foreach ($evaluatees as $evaluatee) {
                 Sheet::create([
                     'sheetImage_id' => $sheetImageId,
+                    'evaluatee_id' => $evaluatee->user_id,
                     'sheet_status_id' => 1, // 初期ステータスを設定
                     'personal_goal' => '', // 必要に応じて設定
                 ]);
