@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignUlid('sheet_id')->constrained('sheets');
             $table->foreignId('competency_id')->constrained('sheet_competency_items');
-            $table->integer('self_evaluation');
-            $table->integer('supervisor_evaluation');
+            $table->string('self_evaluation');
+            $table->string('supervisor_evaluation');
             $table->integer('weight');
         });
     }

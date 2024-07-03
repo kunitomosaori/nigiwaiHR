@@ -215,7 +215,11 @@ class SheetController extends Controller
      */
     public function show(Sheet $sheet)
     {
-        //
+        // 必要なデータを取得してビューに渡します   
+        $sheet->load('performances');
+        return inertia('Sheet', [
+            'sheet' => $sheet,
+        ]);
     }
 
     /**

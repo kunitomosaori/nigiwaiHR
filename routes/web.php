@@ -10,6 +10,7 @@ use App\Http\Controllers\UserinfoController;
 use App\Http\Controllers\SheetController;
 use App\Http\Controllers\CompanyGoalController;
 use App\Http\Controllers\ConnectionUserSheetController;
+use App\Http\Controllers\SheetCompetencyController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -90,7 +91,9 @@ Route::get('/api/sheet-status/{id}', [SheetController::class, 'getSheetStatus'])
 
 Route::get('/api/sheets/{id}', [SheetController::class, 'getSheetData']);
 
-
+Route::get('/sheets/{sheet}', [SheetController::class, 'show'])->name('sheets.show');
+Route::get('/sheet-competencies/create', [SheetCompetencyController::class, 'create'])->name('sheet-competencies.create');
+Route::post('/sheet-competencies', [SheetCompetencyController::class, 'store'])->name('sheet-competencies.store');
 
 Route::post('/api/connections-user-sheet', [ConnectionUserSheetController::class, 'store']);
 require __DIR__.'/auth.php';
