@@ -33,20 +33,20 @@ class ConnectionUserSheetController extends Controller
     {
         $connectionData = [
             'sheetImage_id' => $request->input('sheetImage_id'),
-            'evaluated_ids' => $request->input('evaluated_id'),
-            'evaluated_department_id' => $request->input('evaluated_department_id'),
+            'evaluatee_ids' => $request->input('evaluatee_id'),
+            'evaluatee_department_id' => $request->input('evaluatee_department_id'),
             'evaluator_ids' => $request->input('evaluator_id'),
             'evaluator_department_id' => $request->input('evaluator_department_id'),
         ];
 
         // 被評価者のデータを保存
-        if ($connectionData['evaluated_ids']) {
-            foreach ($connectionData['evaluated_ids'] as $evaluated_id) {
+        if ($connectionData['evaluatee_ids']) {
+            foreach ($connectionData['evaluatee_ids'] as $evaluated_id) {
                 try {
                     ConnectionsUserSheet::create([
                         'user_id' => $evaluated_id,
                         'sheetImage_id' => $connectionData['sheetImage_id'],
-                        'role' => 'evaluated',
+                        'role' => 'evaluatee',
                     ]);
                 } catch (\Exception $e) {
                     Log::error('被評価者のデータの保存に失敗しました: ' . $e->getMessage());

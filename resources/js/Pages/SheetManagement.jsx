@@ -97,8 +97,8 @@ const SheetManagement = () => {
 
                 const connectionData = {
                     sheetImage_id: newSheetImage.id,
-                    evaluated_id: selectedUsers.map(user => user.id) || null,
-                    evaluated_department_id: selectedDepartmentId || null,
+                    evaluatee_id: selectedUsers.map(user => user.id) || null,
+                    evaluatee_department_id: selectedDepartmentId || null,
                     evaluator_id: selectedEvaluators.map(user => user.id) || null,
                     evaluator_department_id: selectedEvaluatorDepartmentId || null,
                 };
