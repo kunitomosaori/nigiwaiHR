@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sheet;
+use App\Models\SheetPeriodSetting;
 use App\Models\SheetPerformance;
+use App\Models\User; // Add this line to import the User model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
