@@ -1,14 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\SheetPeriodSettings;
+use App\Models\SheetPeriodSetting;
 use Illuminate\Http\Request;
 
-class PeriodSettingController extends Controller
+class SheetPeriodSettingController extends Controller
 {
     public function index()
     {
-        $periodSettings = SheetPeriodSettings::all();
+        $periodSettings = SheetPeriodSetting::all();
         return response()->json(['period_settings' => $periodSettings]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class SheetPeriodSettings extends Model
 {
@@ -16,4 +17,11 @@ class SheetPeriodSettings extends Model
         'start_month',
         'end_month',
     ];
+    /**
+     * Get the sheet images for the period setting.
+     */
+    public function sheetImages()
+    {
+        return $this->hasMany(SheetImage::class, 'period_id'); 
+    }
 }

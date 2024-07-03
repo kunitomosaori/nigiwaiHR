@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('connections_user_sheet', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignUlid('sheet_id')->constrained('sheets');
+            $table->foreignId('sheetImage_id')->constrained('sheet_images');
             $table->string('role');
+            $table->timestamps();
         });
     }
 

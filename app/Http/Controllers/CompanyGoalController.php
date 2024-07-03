@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SheetCompanyGoal;
-use App\Models\SheetPeriodSettings;
+use App\Models\SheetPeriodSetting;
 use Carbon\Carbon;
 
 class CompanyGoalController extends Controller
@@ -12,7 +12,7 @@ class CompanyGoalController extends Controller
     {
         $currentMonth = Carbon::now()->month;
 
-        $periodSetting = SheetPeriodSettings::where('start_month', '<=', $currentMonth)
+        $periodSetting = SheetPeriodSetting::where('start_month', '<=', $currentMonth)
             ->where('end_month', '>=', $currentMonth)
             ->first();
 
