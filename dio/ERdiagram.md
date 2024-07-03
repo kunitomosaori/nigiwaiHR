@@ -64,6 +64,7 @@ erDiagram
         id sheet_image_id FK
         int sheet_status_id FK
         int sheet_company_goal_id FK
+        string personal_goal
         date update_at
         int period_setting_id FK
     }
@@ -87,41 +88,18 @@ erDiagram
 
     sheet_performances {
         int id PK
-        int sheet_id FK
-        string goal
-        string schedule
-        string self_comment
-        string supervisor_comment
-        string second_comment
-        string third_comment
-        int self_evaluation
-        int supervisor_evaluation
-        int second_evaluation
-        int third_evaluation
-        int final_evaluation
-        int weight
-    }
-
-    sheet_performance_headers {
-        int id PK
         ulid sheet_id FK
-        string goal
-    }
-
-    sheet_performance_details {
-        int id PK
-        int header_id FK
         int detail_type
         string schedule
         string self_comment
         string supervisor_comment
         string second_comment
         string third_comment
-        int self_evaluation
-        int supervisor_evaluation
-        int second_evaluation
-        int third_evaluation
-        int final_evaluation
+        string self_evaluation
+        string supervisor_evaluation
+        string second_evaluation
+        string third_evaluation
+        string final_evaluation
         int weight
     }
 
@@ -152,8 +130,7 @@ erDiagram
     sheet_company_goals ||--o{ sheet_images: "has"
     sheet_company_goals ||--o{ sheet_period_settings: "refers to"
     sheets ||--o{ sheet_personal_goals: "includes"
-    sheets ||--o{ sheet_performance_headers: "includes"
-    sheet_performance_headers ||--o{ sheet_performance_details: "includes"
+    sheets ||--o{ sheet_performances: "includes"
     sheets ||--o{ sheet_competencies: "includes"
     sheet_competency_items ||--o{ sheet_competencies: "has"
     user_positions ||--o{ user_position_permissions: "has"
@@ -165,3 +142,4 @@ erDiagram
     users ||--o{ connections_user_sheet: "connects"
     sheet_images ||--o{ connections_user_sheet: "connects"
 
+```

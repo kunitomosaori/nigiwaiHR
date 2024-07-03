@@ -8,6 +8,7 @@ use App\Http\Controllers\SheetImageController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserinfoController;
 use App\Http\Controllers\SheetController;
+use App\Http\Controllers\CompanyGoalController;
 use App\Http\Controllers\ConnectionUserSheetController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -52,9 +53,9 @@ Route::get('/user-register', function () {
     return Inertia::render('UserRegister');
 })->name('user-register');
 
-Route::get('/idl/select_idl', function () {
-    return Inertia::render('PersonalGoal');
-})->name('idl.select_idl');
+Route::get('/company-goal', function () {
+    return Inertia::render('CompanyGoal');
+})->name('company-goal');
 
 Route::get('/user-management', function () {
     return Inertia::render('UserManagement');
@@ -79,6 +80,17 @@ Route::get('api/period-settings', [SheetPeriodSettingController::class, 'index']
 
 Route::get('api/sheet-images', [SheetImageController::class, 'getMySheetImages']);
 Route::post('api/sheet-images', [SheetImageController::class, 'store']);
+
+Route::get('/api/company-goal', [CompanyGoalController::class, 'getCurrentGoal']);
+Route::post('/api/company-goal', [CompanyGoalController::class, 'store']);
+
+Route::post('/api/sheets/{id}/update', [SheetController::class, 'update']);
+
+Route::get('/api/sheet-status/{id}', [SheetController::class, 'getSheetStatus']);
+
+Route::get('/api/sheets/{id}', [SheetController::class, 'getSheetData']);
+
+
 
 Route::post('/api/connections-user-sheet', [ConnectionUserSheetController::class, 'store']);
 require __DIR__.'/auth.php';

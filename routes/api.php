@@ -38,3 +38,13 @@ Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{user}', [UserController::class, 'show']);
 Route::put('/users/{user}', [UserController::class, 'update']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+Route::put('/sheets/{id}/status', [SheetController::class, 'updateStatus']);
+
+Route::put('/sheets/{id}/comments-and-status', [SheetController::class, 'updateCommentsAndStatus']);
+
+Route::put('/sheets/{id}/supervisor-comments-and-status', [SheetController::class, 'updateSupervisorCommentsAndStatus']);
+
+Route::put('/sheets/{id}/second-comments-and-status', [SheetController::class, 'updateSecondCommentsAndStatus']);
+
+Route::put('/sheets/{id}/final-approval', [SheetController::class, 'finalApproval']);

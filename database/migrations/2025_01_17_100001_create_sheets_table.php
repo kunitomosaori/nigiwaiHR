@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('sheet_image_id')->constrained('sheet_images');
             $table->foreignId('sheet_status_id')->constrained('sheet_statuses');
             $table->foreignId('sheet_company_goal_id')->constrained('sheet_company_goals');
+            $table->string('personal_goal');
             $table->timestamps();
             $table->foreignId('period_setting_id')->constrained('sheet_period_settings');
         });
@@ -28,6 +29,7 @@ return new class extends Migration
                 'sheet_image_id' => 1,
                 'sheet_status_id' => 1,
                 'sheet_company_goal_id' => 1,
+                'personal_goal' => "目標1",
                 'created_at' => now(),
                 'period_setting_id' => 1,
             ],
@@ -36,6 +38,7 @@ return new class extends Migration
                 'sheet_image_id' => 1,
                 'sheet_status_id' => 2,
                 'sheet_company_goal_id' => 1,
+                'personal_goal' => "目標2",
                 'created_at' => now(),
                 'period_setting_id' => 1,
             ],
@@ -44,6 +47,7 @@ return new class extends Migration
                 'sheet_image_id' => 1,
                 'sheet_status_id' => 3,
                 'sheet_company_goal_id' => 1,
+                'personal_goal' => "目標3",
                 'created_at' => now(),
                 'period_setting_id' => 2,
             ],
@@ -52,6 +56,7 @@ return new class extends Migration
                 'sheet_image_id' => 1,
                 'sheet_status_id' => 4,
                 'sheet_company_goal_id' => 1,
+                'personal_goal' => "目標4",
                 'created_at' => now(),
                 'period_setting_id' => 3,
             ],
@@ -60,6 +65,7 @@ return new class extends Migration
                 'sheet_image_id' => 2,
                 'sheet_status_id' => 1,
                 'sheet_company_goal_id' => 1,
+                'personal_goal' => "目標5",
                 'created_at' => now(),
                 'period_setting_id' => 4,
             ],
@@ -68,6 +74,7 @@ return new class extends Migration
                 'sheet_image_id' => 2,
                 'sheet_status_id' => 2,
                 'sheet_company_goal_id' => 1,
+                'personal_goal' => "目標6",
                 'created_at' => now(),
                 'period_setting_id' => 5,
             ],
@@ -76,6 +83,7 @@ return new class extends Migration
                 'sheet_image_id' => 3,
                 'sheet_status_id' => 3,
                 'sheet_company_goal_id' => 1,
+                'personal_goal' => "目標7",
                 'created_at' => now(),
                 'period_setting_id' => 6,
             ],
@@ -84,6 +92,7 @@ return new class extends Migration
                 'sheet_image_id' => 3,
                 'sheet_status_id' => 4,
                 'sheet_company_goal_id' => 1,
+                'personal_goal' => "目標8",
                 'created_at' => now(),
                 'period_setting_id' => 7,
             ],

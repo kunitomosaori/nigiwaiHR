@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,6 +8,7 @@ class Sheet extends Model
 {
     use HasFactory;
     use HasUlids;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +19,7 @@ class Sheet extends Model
         'sheet_image_id',
         'sheet_status_id',
         'sheet_company_goal_id',
+        'personal_goal',
         'created_by_id',
         'period_setting_id',
     ];
@@ -49,5 +50,13 @@ class Sheet extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by_id')->select('id','name');
+    }
+
+    /**
+     * Get the performances for the sheet.
+     */
+    public function performances()
+    {
+        return $this->hasMany(SheetPerformances::class, 'sheet_id');
     }
 }
