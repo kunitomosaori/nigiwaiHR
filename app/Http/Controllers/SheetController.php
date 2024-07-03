@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sheet;
 use App\Models\SheetPeriodSetting;
-use App\Models\SheetPerformances;
+use App\Models\SheetPerformance;
 use App\Models\User; // Add this line to import the User model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -138,7 +138,7 @@ class SheetController extends Controller
             ]);
 
             foreach ($request->performances as $index => $performance) {
-                SheetPerformances::create([
+                SheetPerformance::create([
                     'sheet_id' => $sheet->id,
                     'detail_type' => $index + 1, // detail_typeを1, 2, 3に設定
                     'weight' => $performance['weight'],
@@ -193,7 +193,7 @@ class SheetController extends Controller
         try {
             $sheet = Sheet::findOrFail($id);
             foreach ($request->comments as $comment) {
-                $performance = SheetPerformances::where('sheet_id', $id)
+                $performance = SheetPerformance::where('sheet_id', $id)
                     ->where('detail_type', $comment['detail_type'])
                     ->first();
                 if ($performance) {
@@ -225,7 +225,7 @@ class SheetController extends Controller
         try {
             $sheet = Sheet::findOrFail($id);
             foreach ($request->comments as $comment) {
-                $performance = SheetPerformances::where('sheet_id', $id)
+                $performance = SheetPerformance::where('sheet_id', $id)
                     ->where('detail_type', $comment['detail_type'])
                     ->first();
                 if ($performance) {
@@ -259,7 +259,7 @@ class SheetController extends Controller
             $sheet->update(['sheet_status_id' => 6]);
 
             foreach ($request->comments as $index => $comment) {
-                $performance = SheetPerformances::where('sheet_id', $sheet->id)
+                $performance = SheetPerformance::where('sheet_id', $sheet->id)
                     ->where('detail_type', $index + 1)
                     ->firstOrFail();
 
@@ -291,7 +291,7 @@ class SheetController extends Controller
             ]);
 
             foreach ($request->comments as $comment) {
-                $performance = SheetPerformances::where('sheet_id', $sheet->id)
+                $performance = SheetPerformance::where('sheet_id', $sheet->id)
                     ->where('detail_type', $comment['detail_type'])
                     ->first();
 
