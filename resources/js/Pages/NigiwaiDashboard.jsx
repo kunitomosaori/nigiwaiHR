@@ -8,6 +8,7 @@ const NigiwaiDashboard = () => {
     const { auth } = props;
     const [mySheets, setMySheets] = useState([]);
     const [approvalSheets, setApprovalSheets] = useState([]);
+    const [connections, setConnections] = useState({});
     const [activeTab, setActiveTab] = useState("mySheets");
     // activeTab=mySheets自分宛のシートと承認   activeTab=approvalSheets承認/評価するシート
     const [filter, setFilter] = useState("all");
@@ -25,7 +26,7 @@ const NigiwaiDashboard = () => {
                 axios
                     .get(`/api/sheets-evaluatee`)
                     .then((response) => {
-                        console.log(response.data.sheets); // デバッグ用ログ
+                        console.log('評価対象者であるシート:',response.data.sheets); // デバッグ用ログ
                         setMySheets(response.data.sheets.map(sheet => ({
                             id: sheet.id,
                             evaluatee_id: sheet.evaluatee_id,
@@ -49,9 +50,9 @@ const NigiwaiDashboard = () => {
                     });
 
                 axios
-                .get(`/api/sheets-evaluator`, { params: { sheetImage_ids: approvalSheetImageIds }})
-                .then((response) => {
-                        console.log(response.data.sheets); // デバッグ用ログ
+                    .get(`/api/sheets-evaluator`, { params: { sheetImage_ids: approvalSheetImageIds } })
+                    .then((response) => {
+                        console.log('評価者であるシート:',response.data.sheets); // デバッグ用ログ
                         setApprovalSheets(response.data.sheets.map(sheet => ({
                             id: sheet.id,
                             evaluatee_id: sheet.evaluatee_id,
@@ -69,13 +70,28 @@ const NigiwaiDashboard = () => {
                                 period_id: sheet.sheet_image.period_id,
                             },
                         })));
+                        // ここでmySheetsとapprovalSheetsが更新された後にconnections-user-sheetを取得する
+                        axios
+                            .get(`/api/connections-user-sheet`, {
+                                params: {
+                                    sheetImage_ids: [...new Set([...response.data.sheets, ...mySheets].map(sheet => sheet.sheet_image.id))]
+                                }
+                            })
+                            .then((response) => {
+                                console.log('Connections:', response.data);
+                                setConnections(response.data.connections);
+                            })
+                            .catch((error) => {
+                                console.log('送信したシートID:',[...new Set([...response.data.sheets, ...mySheets].map(sheet => sheet.sheet_image.id))]);
+                                console.error("接続情報の取得エラー:", error.response ? error.response.data : error.message);
+                            });
                     })
                     .catch((error) => {
                         console.error("Error fetching approval sheets:", error.response ? error.response.data : error.message);
                     });
             })
             .catch((error) => {
-                console.error("Error fetching connections:", error.response ? error.response.data : error.message);
+                console.error("自分とシートの接続関係を取得することに失敗しました:", error.response ? error.response.data : error.message);
             });
     }, [auth.user.id]);
 
@@ -131,6 +147,16 @@ const NigiwaiDashboard = () => {
                     return "不明なステータス";
             }
         }
+    };
+
+    const getEvaluatorNames = (sheetImageId) => {
+        const evaluators = connections[sheetImageId]?.filter(conn => conn.role === 'evaluator') || [];
+        return evaluators.length ? evaluators.map(evaluator => evaluator.user_name).join(', ') : '不明な評価者';
+    };
+
+    const getEvaluateeNames = (sheetImageId) => {
+        const evaluatees = connections[sheetImageId]?.filter(conn => conn.role === 'evaluatee') || [];
+        return evaluatees.length ? evaluatees.map(evaluatee => evaluatee.user_name).join(', ') : '不明な評価対象者';
     };
 
     return (
@@ -192,7 +218,7 @@ const NigiwaiDashboard = () => {
                             <table className="table-auto w-full border-collapse border border-gray-300">
                                 <thead>
                                     <tr className="bg-gray-100">
-                                        <th className="px-4 py-2 border border-gray-300">シート作成者</th>
+                                        <th className="px-4 py-2 border border-gray-300">評価者</th>
                                         <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
                                         <th className="px-4 py-2 border border-gray-300">進捗</th>
                                         <th className="px-4 py-2 border border-gray-300">あなたがやること</th>
@@ -201,7 +227,7 @@ const NigiwaiDashboard = () => {
                                 <tbody>
                                     {filterSheets("mySheets").map((sheet) => (
                                         <tr key={sheet.id} className="hover:bg-gray-50">
-                                            <td className="border px-4 py-2">{sheet.sheet_image.created_by_id}</td>
+                                            <td className="border px-4 py-2">{getEvaluatorNames(sheet.sheet_image.id)}</td>
                                             <td className="border px-4 py-2">
                                                 <Link href={`/sheet/${sheet.id}`} className="text-blue-500 hover:underline">
                                                     {sheet.sheet_image.title}
@@ -225,7 +251,7 @@ const NigiwaiDashboard = () => {
                             <table className="table-auto w-full border-collapse border border-gray-300">
                                 <thead>
                                     <tr className="bg-gray-100">
-                                        <th className="px-4 py-2 border border-gray-300">シート作成者</th>
+                                        <th className="px-4 py-2 border border-gray-300">評価対象者</th>
                                         <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
                                         <th className="px-4 py-2 border border-gray-300">進捗</th>
                                         <th className="px-4 py-2 border border-gray-300">あなたがやること</th>
@@ -234,7 +260,7 @@ const NigiwaiDashboard = () => {
                                 <tbody>
                                     {filterSheets("approvalSheets").map((sheet) => (
                                         <tr key={sheet.id} className="hover:bg-gray-50">
-                                            <td className="border px-4 py-2">{sheet.sheet_image.created_by_id}</td>
+                                            <td className="border px-4 py-2">{getEvaluateeNames(sheet.sheet_image.id)}</td>
                                             <td className="border px-4 py-2">
                                                 <Link href={`/sheet/${sheet.id}`} className="text-blue-500 hover:underline">
                                                     {sheet.sheet_image.title}

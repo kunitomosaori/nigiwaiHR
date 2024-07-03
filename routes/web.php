@@ -95,8 +95,9 @@ Route::post('/sheet-competencies', [SheetCompetencyController::class, 'store'])-
 
 
 Route::post('/api/connections-user-sheet', [ConnectionUserSheetController::class, 'store']);
-Route::get('/api/my/connections-user-sheet', [ConnectionUserSheetController::class, 'userIndex']);
+Route::get('/api/connections-user-sheet', [ConnectionUserSheetController::class, 'index']);
 
+Route::get('/api/my/connections-user-sheet', [ConnectionUserSheetController::class, 'userIndex']);
 
 require __DIR__.'/auth.php';
 

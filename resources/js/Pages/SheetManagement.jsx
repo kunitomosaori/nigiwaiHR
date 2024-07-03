@@ -25,6 +25,17 @@ const SheetManagement = () => {
 
     useEffect(() => {
         axios
+            .get(`/api/author/connections-user-sheet`)
+            .then((response) => {
+                const connections = response.data;
+                console.log('Connections:', connections); // コンソールに出力
+                const approvalSheetImageIds = connections.filter(conn => conn.role === 'evaluator').map(conn => conn.sheetImage_id);
+                console.log('Approval Sheet Image IDs:', approvalSheetImageIds);
+            })
+            .catch((error) => {
+                console.error('Error fetching connections:', error);
+            });
+        axios
             .get(`api/sheet-images?user_id=${auth.user.id}`)
             .then((response) => {
                 setSheetImages(response.data);
@@ -167,7 +178,7 @@ const SheetManagement = () => {
 
     return (
         <Layout>
-            <div className="container mx-auto p-6 rounded-lg text-center flex justify-center mt-6 bg-white shadow-lg">
+            <div className="container mx-auto p-6 rounded-lg text-center flex justify-center mt-6 bg-white">
                 <div className="w-full">
                     <h2 className="text-2xl font-bold mb-6 text-gray-800">シート一覧</h2>
                     <table className="table-auto w-full border-collapse border border-gray-300 mb-6">
@@ -300,30 +311,26 @@ const SheetManagement = () => {
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
-                                <td colSpan="6" className="border px-4 py-2 text-left">
-                                    <button
-                                        onClick={handleAddSheet}
-                                        className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300"
-                                        disabled={!isFormValid()}
-                                    >
-                                        <TbPlus className="text-2xl mr-2" />{" "}
-                                        新しいシートを追加
-                                    </button>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
+                    <button
+                        onClick={handleAddSheet}
+                        className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300"
+                        disabled={!isFormValid()}
+                    >
+                        <TbPlus className="text-2xl mr-2" />{" "}
+                        新しいシートを追加
+                    </button>
                     <h2 className="text-2xl font-bold mb-6 text-gray-800">過去に作成したシート</h2>
                     <table className="table-auto w-full border-collapse border border-gray-300 mb-6">
                         <thead>
                             <tr className="bg-gray-200">
                                 <th className="px-4 py-2 border border-gray-300">年度</th>
                                 <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
-                                <th className="px-4 py-2 border border-gray-300">評価対象者を選択</th>
-                                <th className="px-4 py-2 border border-gray-300">評価対象者を部署から選択</th>
-                                <th className="px-4a py-2 border border-gray-300">評価者を選択</th>
-                                <th className="px-4 py-2 border border-gray-300">評価者を部署から選択</th>
+                                <th className="px-4 py-2 border border-gray-300">評価対象者</th>
+                                <th className="px-4 py-2 border border-gray-300">評価対象者に選択した部署</th>
+                                <th className="px-4a py-2 border border-gray-300">評価者</th>
+                                <th className="px-4 py-2 border border-gray-300">評価者に選択した部署</th>
                             </tr>
                         </thead>
                         <tbody>
