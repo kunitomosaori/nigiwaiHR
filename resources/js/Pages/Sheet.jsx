@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { usePage } from "@inertiajs/react";
+import { usePage, Link } from "@inertiajs/react";
 import Layout from "@/Layouts/Layout";
 
 const Sheet = () => {
@@ -685,6 +685,16 @@ const Sheet = () => {
                     <h2 className="text-red-500 text-2xl text-center">
                         承認済み
                     </h2>
+                )}
+                {status <= 6 && (
+                    <div className="mt-4 flex justify-center">
+                        <Link
+                            href={`/sheet-competencies/create?sheetId=${sheetId}`}
+                            className="bg-green-500 text-white px-4 py-2 rounded-md"
+                        >
+                            行動評価を登録
+                        </Link>
+                    </div>
                 )}
             </div>
         </Layout>

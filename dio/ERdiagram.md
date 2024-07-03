@@ -112,8 +112,8 @@ erDiagram
         int id PK
         int sheet_id FK
         int competency_id FK
-        int self_evaluation
-        int supervisor_evaluation
+        string self_evaluation
+        string supervisor_evaluation
         int weight
     }
 
