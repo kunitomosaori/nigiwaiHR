@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
-class SheetPeriodSettings extends Model
+class SheetPeriodSetting extends Model
 {
     use HasFactory;
 
@@ -22,6 +22,6 @@ class SheetPeriodSettings extends Model
      */
     public function sheetImages()
     {
-        return $this->hasMany(SheetImage::class, 'period_id'); 
+        return $this->hasMany(SheetImage::class, 'period_id');
     }
 }
