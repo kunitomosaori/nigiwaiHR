@@ -20,7 +20,7 @@ const SheetManagement = () => {
     const [selectedEvaluatorDepartmentId, setSelectedEvaluatorDepartmentId] = useState("");
     const [isUserListOpen, setIsUserListOpen] = useState(false);
     const [isEvaluatorListOpen, setIsEvaluatorListOpen] = useState(false);
-    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [selectedEvaluatees, setSelectedEvaluatees] = useState([]);
     const [selectedEvaluators, setSelectedEvaluators] = useState([]);
 
     useEffect(() => {
@@ -97,8 +97,8 @@ const SheetManagement = () => {
 
                 const connectionData = {
                     sheetImage_id: newSheetImage.id,
-                    evaluated_id: selectedUsers.map(user => user.id) || null,
-                    evaluated_department_id: selectedDepartmentId || null,
+                    evaluatee_id: selectedEvaluatees.map(user => user.id) || null,
+                    evaluatee_department_id: selectedDepartmentId || null,
                     evaluator_id: selectedEvaluators.map(user => user.id) || null,
                     evaluator_department_id: selectedEvaluatorDepartmentId || null,
                 };
@@ -125,7 +125,7 @@ const SheetManagement = () => {
     };
 
     const handleUserChange = (user) => {
-        setSelectedUsers([...selectedUsers, user]);
+        setSelectedEvaluatees([...selectedEvaluatees, user]);
         setUsers(users.filter((u) => u.id !== user.id));
     };
 
@@ -138,7 +138,7 @@ const SheetManagement = () => {
         return (
             selectedPeriodId &&
             title &&
-            (selectedUsers.length > 0 || selectedDepartmentId) &&
+            (selectedEvaluatees.length > 0 || selectedDepartmentId) &&
             (selectedEvaluators.length > 0 || selectedEvaluatorDepartmentId)
         );
     };
@@ -153,8 +153,8 @@ const SheetManagement = () => {
                             <tr className="bg-gray-200">
                                 <th className="px-4 py-2 border border-gray-300">年度</th>
                                 <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
-                                <th className="px-4 py-2 border border-gray-300">被評価者を選択</th>
-                                <th className="px-4 py-2 border border-gray-300">被評価者を部署から選択</th>
+                                <th className="px-4 py-2 border border-gray-300">評価対象者を選択</th>
+                                <th className="px-4 py-2 border border-gray-300">評価対象者を部署から選択</th>
                                 <th className="px-4 py-2 border border-gray-300">評価者を選択</th>
                                 <th className="px-4 py-2 border border-gray-300">評価者を部署から選択</th>
                             </tr>
@@ -185,7 +185,7 @@ const SheetManagement = () => {
                                 </td>
                                 <td className="border px-4 py-2 relative">
                                     <div className="border p-2 rounded w-full flex items-center justify-between">
-                                        <div className="">被評価者を選択</div>
+                                        <div className="">評価対象者を選択</div>
                                         <button
                                             onClick={() => setIsUserListOpen(!isUserListOpen)}
                                         >
@@ -206,7 +206,7 @@ const SheetManagement = () => {
                                         </div>
                                     )}
                                     <div>
-                                        {selectedUsers.map((user) => (
+                                        {selectedEvaluatees.map((user) => (
                                             <div key={user.id} className="p-2">
                                                 {user.name}
                                             </div>
@@ -298,8 +298,8 @@ const SheetManagement = () => {
                             <tr className="bg-gray-200">
                                 <th className="px-4 py-2 border border-gray-300">年度</th>
                                 <th className="px-4 py-2 border border-gray-300">シートタイトル</th>
-                                <th className="px-4 py-2 border border-gray-300">被評価者を選択</th>
-                                <th className="px-4 py-2 border border-gray-300">被評価者を部署から選択</th>
+                                <th className="px-4 py-2 border border-gray-300">評価対象者を選択</th>
+                                <th className="px-4 py-2 border border-gray-300">評価対象者を部署から選択</th>
                                 <th className="px-4a py-2 border border-gray-300">評価者を選択</th>
                                 <th className="px-4 py-2 border border-gray-300">評価者を部署から選択</th>
                             </tr>
