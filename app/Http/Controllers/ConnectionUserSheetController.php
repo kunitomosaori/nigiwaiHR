@@ -13,8 +13,30 @@ class ConnectionUserSheetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function Index() {
+    public function index(Request $request)
+    {
+        $sheetImageIds = $request->input('sheetImage_ids', []);
+        $connections = ConnectionsUserSheet::whereIn('sheetImage_id', $sheetImageIds)
+            ->with('user')
+            ->get();
 
+        if ($connections->isEmpty()) {
+            return response()->json(['error' => 'コネクションが見つかりませんでした'], 404);
+        }
+
+        $groupedConnections = $connections->groupBy('sheetImage_id')->map(function ($group) {
+            return $group->map(function ($connection) {
+                return [
+                    'id' => $connection->id,
+                    'user_id' => $connection->user_id,
+                    'sheetImage_id' => $connection->sheetImage_id,
+                    'user_name' => $connection->user->name,
+                    'role' => $connection->role,
+                ];
+            });
+        });
+
+        return response()->json(['connections' => $groupedConnections], 200);
     }
 
     public function userIndex()

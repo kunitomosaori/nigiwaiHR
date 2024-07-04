@@ -6,6 +6,7 @@ use App\Http\Controllers\UserRegisterController;
 use App\Http\Controllers\SheetPeriodSettingController;
 use App\Http\Controllers\SheetImageController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserinfoController;
 use App\Http\Controllers\SheetController;
 use App\Http\Controllers\CompanyGoalController;
@@ -71,6 +72,7 @@ Route::get('/subordinates', [UserinfoController::class, 'getSubordinates']);
 
 Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
 
+Route::put('/api/users/{user}', [UserController::class, 'update']);
 Route::get('/api/sheets', [SheetController::class, 'index']);
 Route::get('/api/sheets-evaluator', [SheetController::class, 'getEvaluatorSheets']);
 Route::get('/api/sheets-evaluatee', [SheetController::class, 'getEvaluateeSheets']);
@@ -91,8 +93,9 @@ Route::post('/sheet-competencies', [SheetCompetencyController::class, 'store'])-
 
 
 Route::post('/api/connections-user-sheet', [ConnectionUserSheetController::class, 'store']);
-Route::get('/api/my/connections-user-sheet', [ConnectionUserSheetController::class, 'userIndex']);
+Route::get('/api/connections-user-sheet', [ConnectionUserSheetController::class, 'index']);
 
+Route::get('/api/my/connections-user-sheet', [ConnectionUserSheetController::class, 'userIndex']);
 
 require __DIR__.'/auth.php';
 
