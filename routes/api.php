@@ -41,6 +41,8 @@ Route::get('/users/{user}', [UserController::class, 'show']);
 Route::put('/users/{user}', [UserController::class, 'update']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
+Route::get('/sheets/{sheetId}', [SheetController::class, 'show']);
+
 Route::put('/sheets/{id}/status', [SheetController::class, 'updateStatus']);
 
 Route::put('/sheets/{id}/comments-and-status', [SheetController::class, 'updateCommentsAndStatus']);
