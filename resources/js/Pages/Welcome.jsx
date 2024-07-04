@@ -42,7 +42,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     <div className="flex flex-col md:w-1/3 text-left space-y-6">
                         <div>
                             <p className="text-2xl font-bold text-gray-900">従業員のスキル情報を一元管理することで</p>
-                            <p className="text-3xl font-bold text-gray-900">適切な人材配置を実現</p>
+                            <p className="text-4xl font-bold text-gray-900">適切な人材配置を実現</p>
                             <p className="text-2xl font-bold" style={{ color: '#F8DF94' }}>顧客満足度No.1</p>
                         </div>
                         <Link
