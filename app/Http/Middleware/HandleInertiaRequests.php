@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -34,6 +35,10 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'isAdmin' => function () {
+                return Auth::check() ? Auth::user()->grade_id >= 6 : null;
+            },
+            'status' => 1, // 仮の値として1を返却
         ];
     }
 }
