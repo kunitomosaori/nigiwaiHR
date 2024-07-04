@@ -102,13 +102,13 @@ const TreeNode = ({ node }) => {
     );
 };
 
-const SideMenu = ({ menuVisible }) => {
+const SideMenu = ({ menuVisible, className }) => {
     const { props } = usePage();
     const { isAdmin } = props;
 
     return (
         <div
-            className={`bg-sky-950 w-1/5 min-h-screen fixed overflow-y-auto p-6 sidemenu ${
+            className={`min-h-screen fixed overflow-y-auto p-6 ${className} ${
                 menuVisible ? "" : "hidden"
             }`}
         >
