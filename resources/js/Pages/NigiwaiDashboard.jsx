@@ -26,7 +26,7 @@ const NigiwaiDashboard = () => {
                 axios
                     .get(`/api/sheets-evaluatee`)
                     .then((response) => {
-                        console.log('評価対象者であるシート:',response.data.sheets); // デバッグ用ログ
+                        console.log('評価対象者であるシート:', response.data.sheets); // デバッグ用ログ
                         setMySheets(response.data.sheets.map(sheet => ({
                             id: sheet.id,
                             evaluatee_id: sheet.evaluatee_id,
@@ -52,7 +52,7 @@ const NigiwaiDashboard = () => {
                 axios
                     .get(`/api/sheets-evaluator`, { params: { sheetImage_ids: approvalSheetImageIds } })
                     .then((response) => {
-                        console.log('評価者であるシート:',response.data.sheets); // デバッグ用ログ
+                        console.log('評価者であるシート:', response.data.sheets); // デバッグ用ログ
                         setApprovalSheets(response.data.sheets.map(sheet => ({
                             id: sheet.id,
                             evaluatee_id: sheet.evaluatee_id,
@@ -82,7 +82,7 @@ const NigiwaiDashboard = () => {
                                 setConnections(response.data.connections);
                             })
                             .catch((error) => {
-                                console.log('送信したシートID:',[...new Set([...response.data.sheets, ...mySheets].map(sheet => sheet.sheet_image.id))]);
+                                console.log('送信したシートID:', [...new Set([...response.data.sheets, ...mySheets].map(sheet => sheet.sheet_image.id))]);
                                 console.error("接続情報の取得エラー:", error.response ? error.response.data : error.message);
                             });
                     })
