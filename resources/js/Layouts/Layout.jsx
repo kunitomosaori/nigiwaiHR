@@ -11,12 +11,13 @@ const Layout = ({ children }) => {
 
     return (
         <div>
-            <Header toggleMenu={toggleMenu} menuVisible={menuVisible} />
-            <SideMenu menuVisible={menuVisible} />
+            <Header className="bg-white shadow-md shadow-inner" toggleMenu={toggleMenu} menuVisible={menuVisible} />
+            <SideMenu className="w-1/5 bg-sky-950" menuVisible={menuVisible} />
             <main
                 className={`content-wrapper ${
-                    menuVisible ? "ml-64" : "ml-0"
-                } mt-20 transition-margin duration-300`}
+                    menuVisible ? "w-4/5" : "w-full"
+                } transition-margin duration-300 ms-auto`}
+                style={{ marginTop: document.querySelector('header')?.offsetHeight || 0 }}
             >
                 {children}
             </main>

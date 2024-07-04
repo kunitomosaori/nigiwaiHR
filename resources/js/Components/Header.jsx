@@ -3,7 +3,7 @@ import { Link, usePage } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
 import { PiListBold } from "react-icons/pi";
 
-const Header = ({ toggleMenu, menuVisible }) => {
+const Header = ({ toggleMenu, menuVisible,className }) => {
     const { props } = usePage();
     const { auth } = props;
 
@@ -14,7 +14,7 @@ const Header = ({ toggleMenu, menuVisible }) => {
 
     return (
         <>
-            <header className="header shadow-md fixed top-0 w-full z-1000 bg-white">
+            <header className={`header fixed top-0 w-full z-1000 ${className}`}>
                 <div className="flex justify-between items-center p-4">
                     <div className="flex items-center">
                         <button onClick={toggleMenu} className="hover:bg-grey hover:bg-opacity-50">

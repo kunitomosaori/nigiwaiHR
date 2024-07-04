@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="にぎわいHRは、個人目標の管理や人事評価シートの作成をサポートするサービスです。">
+        <meta name="keywords" content="にぎわいHR, 人事評価, 目標管理, サービス">
+        <meta name="author" content="にぎわいHR">
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
